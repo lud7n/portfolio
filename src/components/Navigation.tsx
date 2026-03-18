@@ -35,7 +35,7 @@ export default function Navigation() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-12 py-5 transition-all duration-500 ${
         scrolled
-          ? "backdrop-blur-xl bg-[#010d1f]/80 border-b border-white/[0.06]"
+          ? "backdrop-blur-xl bg-[#001a3d]/80 border-b border-white/[0.06]"
           : ""
       }`}
     >

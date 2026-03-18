@@ -38,11 +38,11 @@ function FloatingParticles({ count = 2500 }: { count?: number }) {
     <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#7dd3fc"
-        size={0.013}
+        color="#00d4ff"
+        size={0.015}
         sizeAttenuation
         depthWrite={false}
-        opacity={0.45}
+        opacity={0.65}
       />
     </Points>
   );
@@ -86,9 +86,9 @@ function Bubbles({ count = 60 }: { count?: number }) {
     <instancedMesh ref={ref} args={[undefined, undefined, count]}>
       <sphereGeometry args={[1, 8, 8]} />
       <meshStandardMaterial
-        color="#bae6fd"
+        color="#a8e6ff"
         transparent
-        opacity={0.1}
+        opacity={0.22}
         roughness={0}
         metalness={0.1}
       />
@@ -104,7 +104,7 @@ function LightRays() {
       z: (Math.random() - 0.5) * 4,
       tilt: (Math.random() - 0.5) * 0.3,
       width: Math.random() * 0.22 + 0.06,
-      opacity: Math.random() * 0.035 + 0.015,
+      opacity: Math.random() * 0.07 + 0.04,
     })), []);
 
   return (
@@ -113,7 +113,7 @@ function LightRays() {
         <mesh key={i} position={[ray.x, 1, ray.z]} rotation={[0, 0, ray.tilt]}>
           <planeGeometry args={[ray.width, 18]} />
           <meshBasicMaterial
-            color="#38bdf8"
+            color="#00d4ff"
             transparent
             opacity={ray.opacity}
             side={THREE.DoubleSide}
@@ -145,11 +145,11 @@ export default function Scene3D() {
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
     >
-      <fog attach="fog" args={["#020f1e", 10, 24]} />
-      <ambientLight intensity={0.35} color="#7dd3fc" />
-      <pointLight position={[0, 8, 0]} intensity={1.8} color="#38bdf8" />
-      <pointLight position={[-6, 3, -3]} intensity={0.5} color="#0891b2" />
-      <pointLight position={[6, -4, 2]} intensity={0.3} color="#0e7490" />
+      <fog attach="fog" args={["#001a3d", 10, 22]} />
+      <ambientLight intensity={0.5} color="#00b4d8" />
+      <pointLight position={[0, 8, 0]} intensity={2.5} color="#00d4ff" />
+      <pointLight position={[-6, 3, -3]} intensity={0.8} color="#0096c7" />
+      <pointLight position={[6, -4, 2]} intensity={0.5} color="#0077b6" />
       <FloatingParticles />
       <Bubbles />
       <LightRays />

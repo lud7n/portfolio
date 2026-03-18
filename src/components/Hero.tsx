@@ -62,8 +62,8 @@ export default function Hero() {
       </div>
 
       {/* Vignette + gradient overlay */}
-      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,_transparent_30%,_#010d1f_100%)]" />
-      <div className="absolute bottom-0 left-0 right-0 h-48 z-[1] bg-gradient-to-t from-[#010d1f] to-transparent" />
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,_transparent_30%,_#001a3d_100%)]" />
+      <div className="absolute bottom-0 left-0 right-0 h-48 z-[1] bg-gradient-to-t from-[#001a3d] to-transparent" />
 
       {/* Content */}
       <div className="relative z-[2] text-center px-6 max-w-6xl mx-auto">
