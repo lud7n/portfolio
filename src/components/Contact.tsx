@@ -69,43 +69,34 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="py-36 px-6 md:px-16 max-w-7xl mx-auto text-center"
+      className="pb-24 w-full"
+      style={{ paddingTop: "14rem" }}
     >
-      <span className="contact-tag inline-block text-[10px] tracking-[0.35em] uppercase text-cyan-400 border border-cyan-400/30 px-3 py-1.5 rounded-full mb-8">
-        Contact
-      </span>
-
-      <h2 className="contact-heading text-[clamp(48px,9vw,110px)] font-black leading-[0.9] tracking-tight mb-10">
-        Let&apos;s{" "}
-        <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-teal-400 bg-clip-text text-transparent">
-          work
+      <div className="max-w-7xl mx-auto px-6 md:px-16 text-center" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}>
+        <span className="contact-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/30 border border-white/10 px-3 py-1.5 rounded-full mb-10">
+          Contact
         </span>
-        <br />
-        together.
-      </h2>
 
-      <p className="contact-sub text-white/45 text-base md:text-lg mb-12 max-w-sm mx-auto leading-relaxed">
-        プロジェクトのご相談、お仕事のご依頼はお気軽にどうぞ。
-      </p>
+        <h2 className="contact-heading text-2xl md:text-3xl font-light tracking-[0.1em] text-white/60 mb-4">
+          お気軽にご連絡ください
+        </h2>
 
-      <div className="contact-cta">
-        <a
-          href="mailto:hello@example.com"
-          className="inline-block px-12 py-5 bg-gradient-to-r from-cyan-500 via-sky-500 to-teal-500 rounded-full text-white font-bold text-base tracking-wide hover:scale-105 hover:shadow-[0_0_80px_rgba(6,182,212,0.4)] transition-all duration-300"
-        >
-          Get in touch →
-        </a>
+        <p className="contact-sub text-white/30 text-sm mb-10 max-w-xs mx-auto leading-relaxed tracking-wide">
+          プロジェクトのご相談、お仕事のご依頼など
+        </p>
 
-        <div className="flex justify-center gap-8 mt-14">
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              className="text-xs text-white/25 hover:text-white/70 transition-colors duration-200 tracking-[0.2em] uppercase"
-            >
-              {s.label}
-            </a>
-          ))}
+        <div className="contact-cta">
+          <div className="flex justify-center gap-8">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                className="text-[11px] text-white/20 hover:text-white/50 transition-colors duration-200 tracking-[0.2em] uppercase"
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
