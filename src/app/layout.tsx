@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/CustomCursor";
+import Navigation from "@/components/Navigation";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,7 +27,12 @@ export default function RootLayout({
       <body className={`${inter.variable} antialiased`}>
         <SmoothScrollProvider>
           <CustomCursor />
-          {children}
+          <div className="bg-[#001a3d] min-h-screen text-white overflow-hidden">
+            <Navigation />
+            {children}
+            <Contact />
+            <Footer />
+          </div>
         </SmoothScrollProvider>
       </body>
     </html>
