@@ -6,8 +6,8 @@ import dynamic from "next/dynamic";
 
 const Scene3D = dynamic(() => import("@/components/Scene3D"), { ssr: false });
 
-const titleLine1 = "Creative".split("");
-const titleLine2 = "Developer".split("");
+const titleLine1 = "Optimize my ".split("");
+const titleLine2 = "objectives".split("");
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,29 +67,18 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-[2] text-center px-6 max-w-6xl mx-auto">
-        {/* Title line 1 */}
-        <div className="overflow-hidden mb-0">
-          <h1 className="text-[clamp(60px,12vw,140px)] font-black tracking-tighter leading-[0.9] text-white">
+        {/* Title - 1行 */}
+        <div className="mb-8">
+          <h1 className="text-[clamp(28px,4.5vw,64px)] font-black tracking-tighter leading-[0.9]">
             {titleLine1.map((char, i) => (
-              <span
-                key={i}
-                className="hero-char inline-block"
-                style={{ display: "inline-block" }}
-              >
-                {char}
+              <span key={i} className="hero-char inline-block text-white">
+                {char === " " ? "\u00A0" : char}
               </span>
             ))}
-          </h1>
-        </div>
-
-        {/* Title line 2 - gradient */}
-        <div className="overflow-hidden mb-8">
-          <h1 className="text-[clamp(60px,12vw,140px)] font-black tracking-tighter leading-[0.9] bg-gradient-to-r from-cyan-300 via-sky-400 to-teal-400 bg-clip-text text-transparent">
             {titleLine2.map((char, i) => (
               <span
                 key={i}
-                className="hero-char inline-block"
-                style={{ display: "inline-block" }}
+                className="hero-char inline-block bg-gradient-to-r from-cyan-300 via-sky-400 to-teal-400 bg-clip-text text-transparent"
               >
                 {char}
               </span>
@@ -97,28 +86,6 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* Subtitle */}
-        <p className="hero-subtitle text-base md:text-lg text-white/50 max-w-md mx-auto mb-10 leading-relaxed tracking-wide">
-          デザインとコードで体験を創る。
-          <br />
-          フロントエンド × WebGL × アニメーション
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="flex gap-4 justify-center flex-wrap">
-          <a
-            href="#projects"
-            className="hero-cta inline-block px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-teal-600 rounded-full text-white font-semibold text-sm tracking-wide hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300"
-          >
-            Projects
-          </a>
-          <a
-            href="#contact"
-            className="hero-cta inline-block px-8 py-3.5 border border-white/20 rounded-full text-white/70 font-semibold text-sm tracking-wide hover:bg-white/10 hover:text-white hover:border-white/40 transition-all duration-300"
-          >
-            Contact
-          </a>
-        </div>
       </div>
 
       {/* Scroll indicator */}

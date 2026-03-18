@@ -71,8 +71,9 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="py-36 px-6 md:px-16 max-w-7xl mx-auto"
+      className="pt-64 pb-36 w-full"
     >
+      <div className="max-w-7xl mx-auto px-6 md:px-16">
       <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-cyan-400 border border-cyan-400/30 px-3 py-1.5 rounded-full mb-8">
         About Me
       </span>
@@ -103,19 +104,20 @@ export default function About() {
           </div>
         </div>
 
-        <div className="stats-grid grid grid-cols-2 gap-4">
+        <div className="stats-grid space-y-6">
           {stats.map((s) => (
-            <div
-              key={s.label}
-              className="stat-card group p-7 rounded-2xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.07] hover:border-cyan-500/30 transition-all duration-300"
-            >
-              <div className="text-4xl font-black bg-gradient-to-br from-cyan-400 to-teal-500 bg-clip-text text-transparent mb-2">
-                {s.num}
+            <div key={s.label} className="stat-card group">
+              <div className="h-px bg-white/10 mb-5 group-hover:bg-cyan-400/40 transition-colors duration-500" />
+              <div className="flex items-baseline justify-between">
+                <div className="text-4xl font-black bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
+                  {s.num}
+                </div>
+                <div className="text-[10px] text-white/30 tracking-[0.25em] uppercase">{s.label}</div>
               </div>
-              <div className="text-xs text-white/40 tracking-wide">{s.label}</div>
             </div>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );
