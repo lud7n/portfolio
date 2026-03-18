@@ -62,8 +62,8 @@ export default function Hero() {
       </div>
 
       {/* Vignette + gradient overlay */}
-      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,_transparent_30%,_#050510_100%)]" />
-      <div className="absolute bottom-0 left-0 right-0 h-48 z-[1] bg-gradient-to-t from-[#050510] to-transparent" />
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,_transparent_30%,_#010d1f_100%)]" />
+      <div className="absolute bottom-0 left-0 right-0 h-48 z-[1] bg-gradient-to-t from-[#010d1f] to-transparent" />
 
       {/* Content */}
       <div className="relative z-[2] text-center px-6 max-w-6xl mx-auto">
@@ -84,7 +84,7 @@ export default function Hero() {
 
         {/* Title line 2 - gradient */}
         <div className="overflow-hidden mb-8">
-          <h1 className="text-[clamp(60px,12vw,140px)] font-black tracking-tighter leading-[0.9] bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+          <h1 className="text-[clamp(60px,12vw,140px)] font-black tracking-tighter leading-[0.9] bg-gradient-to-r from-cyan-300 via-sky-400 to-teal-400 bg-clip-text text-transparent">
             {titleLine2.map((char, i) => (
               <span
                 key={i}
@@ -108,7 +108,7 @@ export default function Hero() {
         <div className="flex gap-4 justify-center flex-wrap">
           <a
             href="#projects"
-            className="hero-cta inline-block px-8 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full text-white font-semibold text-sm tracking-wide hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] transition-all duration-300"
+            className="hero-cta inline-block px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-teal-600 rounded-full text-white font-semibold text-sm tracking-wide hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300"
           >
             Projects
           </a>

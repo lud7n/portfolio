@@ -71,13 +71,13 @@ export default function Contact() {
       id="contact"
       className="py-36 px-6 md:px-16 max-w-7xl mx-auto text-center"
     >
-      <span className="contact-tag inline-block text-[10px] tracking-[0.35em] uppercase text-pink-400 border border-pink-400/30 px-3 py-1.5 rounded-full mb-8">
+      <span className="contact-tag inline-block text-[10px] tracking-[0.35em] uppercase text-cyan-400 border border-cyan-400/30 px-3 py-1.5 rounded-full mb-8">
         Contact
       </span>
 
       <h2 className="contact-heading text-[clamp(48px,9vw,110px)] font-black leading-[0.9] tracking-tight mb-10">
         Let&apos;s{" "}
-        <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-teal-400 bg-clip-text text-transparent">
           work
         </span>
         <br />
@@ -91,7 +91,7 @@ export default function Contact() {
       <div className="contact-cta">
         <a
           href="mailto:hello@example.com"
-          className="inline-block px-12 py-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full text-white font-bold text-base tracking-wide hover:scale-105 hover:shadow-[0_0_80px_rgba(168,85,247,0.4)] transition-all duration-300"
+          className="inline-block px-12 py-5 bg-gradient-to-r from-cyan-500 via-sky-500 to-teal-500 rounded-full text-white font-bold text-base tracking-wide hover:scale-105 hover:shadow-[0_0_80px_rgba(6,182,212,0.4)] transition-all duration-300"
         >
           Get in touch →
         </a>
