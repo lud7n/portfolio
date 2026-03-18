@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { gsap } from "gsap";
+import Link from "next/link";
 
 const navLinks = [
   { href: "/#about", label: "About" },
@@ -40,22 +41,22 @@ export default function Navigation() {
           : ""
       }`}
     >
-      <a href="#home" className="nav-logo opacity-0">
+      <Link href="/" className="nav-logo opacity-0">
         <span className="text-lg font-black tracking-tight bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
           KS.
         </span>
-      </a>
+      </Link>
 
       <ul className="flex items-center gap-8">
         {navLinks.map((link) => (
           <li key={link.href}>
-            <a
+            <Link
               href={link.href}
               className="nav-link opacity-0 text-xs font-medium text-white/50 hover:text-white transition-colors duration-200 tracking-[0.15em] uppercase relative group"
             >
               {link.label}
               <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-teal-400 group-hover:w-full transition-all duration-300" />
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
