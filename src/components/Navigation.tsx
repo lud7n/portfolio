@@ -35,12 +35,12 @@ export default function Navigation() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-12 py-5 transition-all duration-500 ${
         scrolled
-          ? "backdrop-blur-xl bg-[#050510]/80 border-b border-white/[0.06]"
+          ? "backdrop-blur-xl bg-[#001a3d]/80 border-b border-white/[0.06]"
           : ""
       }`}
     >
       <a href="#home" className="nav-logo opacity-0">
-        <span className="text-lg font-black tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+        <span className="text-lg font-black tracking-tight bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
           KS.
         </span>
       </a>
@@ -53,7 +53,7 @@ export default function Navigation() {
               className="nav-link opacity-0 text-xs font-medium text-white/50 hover:text-white transition-colors duration-200 tracking-[0.15em] uppercase relative group"
             >
               {link.label}
-              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-indigo-400 to-purple-400 group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-teal-400 group-hover:w-full transition-all duration-300" />
             </a>
           </li>
         ))}

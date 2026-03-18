@@ -5,129 +5,104 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
-function Particles({ count = 6000 }: { count?: number }) {
+// 浮遊する小粒子（プランクトン・塵）
+function FloatingParticles({ count = 2500 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
 
-  const positions = useMemo(() => {
-    const pos = new Float32Array(count * 3);
+  const { positions, speeds, offsets } = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const speeds = new Float32Array(count);
+    const offsets = new Float32Array(count);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 12;
+      positions[i * 3]     = (Math.random() - 0.5) * 20;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 16;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      speeds[i]  = Math.random() * 0.006 + 0.001;
+      offsets[i] = Math.random() * Math.PI * 2;
     }
-    return pos;
+    return { positions, speeds, offsets };
   }, [count]);
 
   useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.x = state.clock.elapsedTime * 0.04;
-      ref.current.rotation.y = state.clock.elapsedTime * 0.06;
+    if (!ref.current) return;
+    const pos = ref.current.geometry.attributes.position.array as Float32Array;
+    for (let i = 0; i < count; i++) {
+      pos[i * 3 + 1] += speeds[i];
+      pos[i * 3]     += Math.sin(state.clock.elapsedTime * 0.25 + offsets[i]) * 0.001;
+      if (pos[i * 3 + 1] > 8) pos[i * 3 + 1] = -8;
     }
+    ref.current.geometry.attributes.position.needsUpdate = true;
   });
 
   return (
     <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#818cf8"
-        size={0.018}
+        color="#00d4ff"
+        size={0.015}
         sizeAttenuation
         depthWrite={false}
-        opacity={0.7}
+        opacity={0.65}
       />
     </Points>
   );
 }
 
-function WireframeIcosahedron() {
-  const ref = useRef<THREE.Mesh>(null);
+// 上昇する泡
+function Bubbles({ count = 60 }: { count?: number }) {
+  const ref = useRef<THREE.InstancedMesh>(null);
+
+  const bubbles = useMemo(() =>
+    Array.from({ length: count }, () => ({
+      x: (Math.random() - 0.5) * 14,
+      y: (Math.random() - 0.5) * 16,
+      z: (Math.random() - 0.5) * 6,
+      speed: Math.random() * 0.018 + 0.004,
+      size: Math.random() * 0.055 + 0.012,
+      wobble: Math.random() * Math.PI * 2,
+      wobbleSpeed: Math.random() * 0.7 + 0.3,
+    })), [count]);
+
+  const dummy = useMemo(() => new THREE.Object3D(), []);
 
   useFrame((state) => {
     if (!ref.current) return;
-    ref.current.rotation.x = state.clock.elapsedTime * 0.25;
-    ref.current.rotation.y = state.clock.elapsedTime * 0.35;
-    ref.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.25;
+    bubbles.forEach((b, i) => {
+      b.y += b.speed;
+      if (b.y > 8) {
+        b.y = -8;
+        b.x = (Math.random() - 0.5) * 14;
+      }
+      const wobbleX = Math.sin(state.clock.elapsedTime * b.wobbleSpeed + b.wobble) * 0.07;
+      dummy.position.set(b.x + wobbleX, b.y, b.z);
+      dummy.scale.setScalar(b.size);
+      dummy.updateMatrix();
+      ref.current!.setMatrixAt(i, dummy.matrix);
+    });
+    ref.current.instanceMatrix.needsUpdate = true;
   });
 
   return (
-    <mesh ref={ref} position={[1.8, 0, 0]}>
-      <icosahedronGeometry args={[1.1, 1]} />
+    <instancedMesh ref={ref} args={[undefined, undefined, count]}>
+      <sphereGeometry args={[1, 8, 8]} />
       <meshStandardMaterial
-        color="#a78bfa"
-        wireframe
+        color="#a8e6ff"
         transparent
-        opacity={0.25}
-        emissive="#7c3aed"
-        emissiveIntensity={0.4}
+        opacity={0.22}
+        roughness={0}
+        metalness={0.1}
       />
-    </mesh>
+    </instancedMesh>
   );
 }
 
-function WireframeOctahedron() {
-  const ref = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (!ref.current) return;
-    ref.current.rotation.x = state.clock.elapsedTime * 0.18;
-    ref.current.rotation.z = state.clock.elapsedTime * 0.28;
-    ref.current.position.y = Math.sin(state.clock.elapsedTime * 0.65 + 2) * 0.3;
-  });
-
-  return (
-    <mesh ref={ref} position={[-2.5, 0.3, -0.5]}>
-      <octahedronGeometry args={[0.85]} />
-      <meshStandardMaterial
-        color="#22d3ee"
-        wireframe
-        transparent
-        opacity={0.2}
-        emissive="#0891b2"
-        emissiveIntensity={0.3}
-      />
-    </mesh>
-  );
-}
-
-function WireframeTorus() {
-  const ref = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (!ref.current) return;
-    ref.current.rotation.x = state.clock.elapsedTime * 0.3;
-    ref.current.rotation.y = state.clock.elapsedTime * 0.15;
-    ref.current.position.y = Math.sin(state.clock.elapsedTime * 0.4 + 1) * 0.2;
-  });
-
-  return (
-    <mesh ref={ref} position={[0, -1.5, -2]}>
-      <torusGeometry args={[0.8, 0.2, 8, 24]} />
-      <meshStandardMaterial
-        color="#f472b6"
-        wireframe
-        transparent
-        opacity={0.15}
-        emissive="#db2777"
-        emissiveIntensity={0.3}
-      />
-    </mesh>
-  );
-}
 
 function MouseReactiveCamera() {
   const { camera } = useThree();
 
   useFrame((state) => {
-    camera.position.x = THREE.MathUtils.lerp(
-      camera.position.x,
-      state.mouse.x * 0.6,
-      0.04
-    );
-    camera.position.y = THREE.MathUtils.lerp(
-      camera.position.y,
-      state.mouse.y * 0.4,
-      0.04
-    );
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, state.mouse.x * 0.5, 0.04);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, state.mouse.y * 0.35, 0.04);
     camera.lookAt(0, 0, 0);
   });
 
@@ -142,14 +117,13 @@ export default function Scene3D() {
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true }}
     >
-      <ambientLight intensity={0.6} />
-      <pointLight position={[8, 8, 8]} intensity={1.2} color="#ffffff" />
-      <pointLight position={[-8, -8, -8]} intensity={0.6} color="#a855f7" />
-      <pointLight position={[0, 5, -5]} intensity={0.4} color="#06b6d4" />
-      <Particles />
-      <WireframeIcosahedron />
-      <WireframeOctahedron />
-      <WireframeTorus />
+      <fog attach="fog" args={["#001a3d", 10, 22]} />
+      <ambientLight intensity={0.5} color="#00b4d8" />
+      <pointLight position={[0, 8, 0]} intensity={2.5} color="#00d4ff" />
+      <pointLight position={[-6, 3, -3]} intensity={0.8} color="#0096c7" />
+      <pointLight position={[6, -4, 2]} intensity={0.5} color="#0077b6" />
+      <FloatingParticles />
+      <Bubbles />
       <MouseReactiveCamera />
     </Canvas>
   );

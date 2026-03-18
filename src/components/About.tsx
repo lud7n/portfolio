@@ -73,7 +73,7 @@ export default function About() {
       id="about"
       className="py-36 px-6 md:px-16 max-w-7xl mx-auto"
     >
-      <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-indigo-400 border border-indigo-400/30 px-3 py-1.5 rounded-full mb-8">
+      <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-cyan-400 border border-cyan-400/30 px-3 py-1.5 rounded-full mb-8">
         About Me
       </span>
 
@@ -82,7 +82,7 @@ export default function About() {
           <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight">
             Design meets
             <br />
-            <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
               Engineering
             </span>
           </h2>
@@ -107,9 +107,9 @@ export default function About() {
           {stats.map((s) => (
             <div
               key={s.label}
-              className="stat-card group p-7 rounded-2xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.07] hover:border-indigo-500/30 transition-all duration-300"
+              className="stat-card group p-7 rounded-2xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.07] hover:border-cyan-500/30 transition-all duration-300"
             >
-              <div className="text-4xl font-black bg-gradient-to-br from-indigo-400 to-purple-500 bg-clip-text text-transparent mb-2">
+              <div className="text-4xl font-black bg-gradient-to-br from-cyan-400 to-teal-500 bg-clip-text text-transparent mb-2">
                 {s.num}
               </div>
               <div className="text-xs text-white/40 tracking-wide">{s.label}</div>

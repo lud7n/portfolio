@@ -18,7 +18,7 @@ export default function CustomCursor() {
     };
 
     const onMouseEnterInteractive = () => {
-      gsap.to(ring, { scale: 2.2, opacity: 0.6, borderColor: "rgba(168,85,247,0.8)", duration: 0.3 });
+      gsap.to(ring, { scale: 2.2, opacity: 0.6, borderColor: "rgba(6,182,212,0.8)", duration: 0.3 });
       gsap.to(dot, { scale: 0, duration: 0.2 });
     };
 

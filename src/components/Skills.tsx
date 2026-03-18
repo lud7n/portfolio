@@ -84,13 +84,13 @@ export default function Skills() {
       id="skills"
       className="py-36 px-6 md:px-16 max-w-7xl mx-auto"
     >
-      <span className="inline-block text-[10px] tracking-[0.35em] uppercase text-purple-400 border border-purple-400/30 px-3 py-1.5 rounded-full mb-8">
+      <span className="inline-block text-[10px] tracking-[0.35em] uppercase text-cyan-400 border border-cyan-400/30 px-3 py-1.5 rounded-full mb-8">
         Skills
       </span>
 
       <h2 className="text-5xl md:text-6xl font-black mb-16 tracking-tight">
         What I{" "}
-        <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-teal-400 to-cyan-300 bg-clip-text text-transparent">
           work with
         </span>
       </h2>
@@ -125,7 +125,7 @@ export default function Skills() {
               {techStack.map((tech) => (
                 <span
                   key={tech}
-                  className="tech-chip px-4 py-2 rounded-full border border-white/[0.09] bg-white/[0.04] text-xs text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-white/[0.08] transition-all duration-200 tracking-wide"
+                  className="tech-chip px-4 py-2 rounded-full border border-white/[0.09] bg-white/[0.04] text-xs text-white/60 hover:border-cyan-500/40 hover:text-white hover:bg-white/[0.08] transition-all duration-200 tracking-wide"
                 >
                   {tech}
                 </span>
@@ -141,7 +141,7 @@ export default function Skills() {
               {aiTools.map((tool) => (
                 <div
                   key={tool.name}
-                  className="flex items-center justify-between px-4 py-3 rounded-xl border border-white/[0.07] bg-white/[0.03] hover:border-purple-500/30 hover:bg-white/[0.06] transition-all duration-200"
+                  className="flex items-center justify-between px-4 py-3 rounded-xl border border-white/[0.07] bg-white/[0.03] hover:border-cyan-500/30 hover:bg-white/[0.06] transition-all duration-200"
                 >
                   <span className="text-xs font-medium text-white/70">{tool.name}</span>
                   <span className="text-[10px] text-white/30 tracking-wide">{tool.role}</span>
