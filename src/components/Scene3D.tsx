@@ -96,34 +96,6 @@ function Bubbles({ count = 60 }: { count?: number }) {
   );
 }
 
-// 水面からの光のカーテン
-function LightRays() {
-  const rays = useMemo(() =>
-    Array.from({ length: 8 }, () => ({
-      x: (Math.random() - 0.5) * 14,
-      z: (Math.random() - 0.5) * 4,
-      tilt: (Math.random() - 0.5) * 0.3,
-      width: Math.random() * 0.22 + 0.06,
-      opacity: Math.random() * 0.07 + 0.04,
-    })), []);
-
-  return (
-    <>
-      {rays.map((ray, i) => (
-        <mesh key={i} position={[ray.x, 1, ray.z]} rotation={[0, 0, ray.tilt]}>
-          <planeGeometry args={[ray.width, 18]} />
-          <meshBasicMaterial
-            color="#00d4ff"
-            transparent
-            opacity={ray.opacity}
-            side={THREE.DoubleSide}
-            depthWrite={false}
-          />
-        </mesh>
-      ))}
-    </>
-  );
-}
 
 function MouseReactiveCamera() {
   const { camera } = useThree();
@@ -152,7 +124,6 @@ export default function Scene3D() {
       <pointLight position={[6, -4, 2]} intensity={0.5} color="#0077b6" />
       <FloatingParticles />
       <Bubbles />
-      <LightRays />
       <MouseReactiveCamera />
     </Canvas>
   );
