@@ -7,9 +7,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const socials = [
-  { label: "GitHub", href: "#" },
-  { label: "Twitter", href: "#" },
-  { label: "LinkedIn", href: "#" },
+  { label: "GitHub",    href: "https://github.com/lud7n" },
+  { label: "X",         href: "https://x.com/Iud7n/" },
+  { label: "Instagram", href: "https://www.instagram.com/lud7n/" },
+  { label: "AtCoder",   href: "https://atcoder.jp/users/lud7n" },
 ];
 
 export default function Contact() {
@@ -109,6 +110,8 @@ export default function Contact() {
               <a
                 key={s.label}
                 href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 className="inline-block text-[11px] text-white/20 hover:text-white/60 transition-colors duration-200 tracking-[0.2em] uppercase px-4 py-3"
