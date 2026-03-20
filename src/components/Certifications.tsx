@@ -10,20 +10,20 @@ const categories = [
   {
     label: "IT / Engineering",
     items: [
-      { name: "基本情報技術者", en: "Fundamental Information Technology Engineer" },
-      { name: "情報セキュリティマネジメント", en: "Information Security Management" },
-      { name: "AWS CLF", en: "AWS Certified Cloud Practitioner" },
-      { name: "AWS SAA", en: "AWS Certified Solutions Architect – Associate" },
-      { name: "AWS SCS", en: "AWS Certified Security – Specialty" },
+      { name: "Fundamental IT Engineer", en: "基本情報技術者" },
+      { name: "Information Security Management", en: "情報セキュリティマネジメント" },
+      { name: "AWS Certified Cloud Practitioner", en: "CLF" },
+      { name: "AWS Certified Solutions Architect", en: "SAA" },
+      { name: "AWS Certified Security Specialty", en: "SCS" },
     ],
   },
   {
     label: "Language / Culture",
     items: [
-      { name: "TOEIC L&R 655点", en: "TOEIC Listening & Reading Test" },
-      { name: "日本漢字能力検定 準1級", en: "Kanji Proficiency Test Pre-Grade 1" },
-      { name: "色彩検定 2級", en: "Color Coordinator Grade 2" },
-      { name: "日商簿記検定 3級", en: "Bookkeeping Certificate Grade 3" },
+      { name: "TOEIC L&R 655", en: "Listening & Reading" },
+      { name: "Kanji Proficiency Pre-Grade 1", en: "日本漢字能力検定" },
+      { name: "Color Coordinator Grade 2", en: "色彩検定" },
+      { name: "Bookkeeping Certificate Grade 3", en: "日商簿記" },
     ],
   },
 ];
@@ -95,13 +95,13 @@ export default function Certifications() {
     >
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         <span className="cert-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
-          Certifications
+          Proven Knowledge
         </span>
 
         <h2 className="cert-heading text-5xl md:text-6xl font-black leading-tight mb-20 tracking-tight" style={{ perspective: "600px" }}>
-          Proven
+          Certifi
           <br />
-          <span className="text-black">Knowledge</span>
+          <span className="text-black">cations.</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-16">
