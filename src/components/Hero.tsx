@@ -73,6 +73,26 @@ export default function Hero() {
         },
       });
 
+      // H: テキストの呼吸アニメーション（入場完了後にスタート）
+      gsap.to(".hero-line-1 h1", {
+        scale: 1.003,
+        repeat: -1,
+        yoyo: true,
+        duration: 3.8,
+        ease: "sine.inOut",
+        delay: 2.2,
+        transformOrigin: "left center",
+      });
+      gsap.to(".hero-line-2 h1", {
+        scale: 1.003,
+        repeat: -1,
+        yoyo: true,
+        duration: 4.2,
+        ease: "sine.inOut",
+        delay: 2.8,
+        transformOrigin: "left center",
+      });
+
       // 背景の大きな文字もゆっくり動く
       gsap.to(".hero-bg-text", {
         yPercent: 15,

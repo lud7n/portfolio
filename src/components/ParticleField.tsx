@@ -26,8 +26,34 @@ export default function ParticleField() {
     let animId: number;
     let particles: Particle[] = [];
 
+    // F: カーソル追従・静止検知
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let lastMoveTime = 0;
+    let gatherStrength = 0;
+
+    // I: スクロール速度
+    let lastScrollY = window.scrollY;
+    let scrollSpeed = 0;
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      lastMoveTime = Date.now();
+    };
+
+    const onScroll = () => {
+      const current = window.scrollY;
+      const delta = Math.abs(current - lastScrollY);
+      scrollSpeed = Math.min(delta * 0.25, 4);
+      lastScrollY = current;
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     const resize = () => {
-      canvas.width = window.innerWidth;
+      canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
     };
 
@@ -51,12 +77,39 @@ export default function ParticleField() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       t += 1;
 
-      for (const p of particles) {
-        // 不規則なふらつき
-        p.x += p.vx + Math.sin(t * p.wobbleSpeed + p.wobbleOffset) * p.wobbleAmp * 0.04;
-        p.y += p.vy + Math.cos(t * p.wobbleSpeed * 0.7 + p.wobbleOffset) * p.wobbleAmp * 0.04;
+      // F: 静止 2秒後からgather強度を上げる、動くとリセット
+      const idle = Date.now() - lastMoveTime;
+      if (idle > 2000) {
+        gatherStrength = Math.min(1, gatherStrength + 0.002);
+      } else {
+        gatherStrength = Math.max(0, gatherStrength - 0.06);
+      }
 
-        // 画面端でループ
+      // I: スクロール速度を減衰
+      scrollSpeed *= 0.88;
+      const speedMult = 1 + scrollSpeed;
+
+      for (const p of particles) {
+        const wobbleX = Math.sin(t * p.wobbleSpeed + p.wobbleOffset) * p.wobbleAmp * 0.04;
+        const wobbleY = Math.cos(t * p.wobbleSpeed * 0.7 + p.wobbleOffset) * p.wobbleAmp * 0.04;
+
+        let dvx = 0;
+        let dvy = 0;
+
+        // F: カーソル方向へ引力
+        if (gatherStrength > 0) {
+          const dx   = mouseX - p.x;
+          const dy   = mouseY - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const force = gatherStrength * 0.012;
+          dvx = (dx / dist) * force;
+          dvy = (dy / dist) * force;
+        }
+
+        // I: スクロール速度でwobble量を増幅
+        p.x += (p.vx + wobbleX * speedMult + dvx) * speedMult;
+        p.y += (p.vy + wobbleY * speedMult + dvy) * speedMult;
+
         if (p.x < -2) p.x = canvas.width + 2;
         if (p.x > canvas.width + 2) p.x = -2;
         if (p.y < -2) p.y = canvas.height + 2;
@@ -75,14 +128,14 @@ export default function ParticleField() {
     createParticles();
     draw();
 
-    window.addEventListener("resize", () => {
-      resize();
-      createParticles();
-    });
+    const onResize = () => { resize(); createParticles(); };
+    window.addEventListener("resize", onResize);
 
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 
