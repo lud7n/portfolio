@@ -26,8 +26,36 @@ export default function ParticleField() {
     let animId: number;
     let particles: Particle[] = [];
 
+    // F: カーソル位置・静止検知
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let hasMoved   = false;
+    let lastMoveTime = Date.now(); // 0ではなく現在時刻で初期化
+    let gatherStrength = 0;
+
+    // I: スクロール速度
+    let lastScrollY = window.scrollY;
+    let scrollSpeed = 0;
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      hasMoved     = true;
+      lastMoveTime = Date.now();
+    };
+
+    const onScroll = () => {
+      const current = window.scrollY;
+      const delta   = Math.abs(current - lastScrollY);
+      scrollSpeed   = Math.min(delta * 0.3, 5);
+      lastScrollY   = current;
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("scroll",    onScroll, { passive: true });
+
     const resize = () => {
-      canvas.width = window.innerWidth;
+      canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
     };
 
@@ -38,11 +66,11 @@ export default function ParticleField() {
         y: Math.random() * window.innerHeight,
         vx: (Math.random() - 0.5) * 0.18,
         vy: (Math.random() - 0.5) * 0.18,
-        size: Math.random() * 1.4 + 0.4,
-        opacity: Math.random() * 0.45 + 0.15,
+        size:         Math.random() * 1.4 + 0.4,
+        opacity:      Math.random() * 0.45 + 0.15,
         wobbleOffset: Math.random() * Math.PI * 2,
-        wobbleSpeed: Math.random() * 0.008 + 0.003,
-        wobbleAmp: Math.random() * 0.6 + 0.2,
+        wobbleSpeed:  Math.random() * 0.008 + 0.003,
+        wobbleAmp:    Math.random() * 0.6 + 0.2,
       }));
     };
 
@@ -51,12 +79,38 @@ export default function ParticleField() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       t += 1;
 
-      for (const p of particles) {
-        // 不規則なふらつき
-        p.x += p.vx + Math.sin(t * p.wobbleSpeed + p.wobbleOffset) * p.wobbleAmp * 0.04;
-        p.y += p.vy + Math.cos(t * p.wobbleSpeed * 0.7 + p.wobbleOffset) * p.wobbleAmp * 0.04;
+      // F: カーソルが2秒静止したら gather 強度を上げる
+      // hasMoved が true の場合のみ発動（初期状態では collect しない）
+      const idle = Date.now() - lastMoveTime;
+      if (hasMoved && idle > 100) {
+        gatherStrength = Math.min(1, gatherStrength + 0.008);
+      } else {
+        gatherStrength = Math.max(0, gatherStrength - 0.05);
+      }
 
-        // 画面端でループ
+      // I: スクロール速度を減衰
+      scrollSpeed *= 0.88;
+      const speedMult = 1 + scrollSpeed;
+
+      for (const p of particles) {
+        const wobbleX = Math.sin(t * p.wobbleSpeed + p.wobbleOffset) * p.wobbleAmp * 0.04;
+        const wobbleY = Math.cos(t * p.wobbleSpeed * 0.7 + p.wobbleOffset) * p.wobbleAmp * 0.04;
+
+        // I: スクロール時は通常移動を加速
+        p.x += (p.vx + wobbleX) * speedMult;
+        p.y += (p.vy + wobbleY) * speedMult;
+
+        // F: gather — 距離に応じた引力（スクロール倍率には乗せない）
+        if (gatherStrength > 0) {
+          const dx   = mouseX - p.x;
+          const dy   = mouseY - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          // 近いほど弱く（行き過ぎ防止）、遠いほど強く引く
+          const force = Math.min(dist * 0.08, 2.5) * gatherStrength;
+          p.x += (dx / dist) * force;
+          p.y += (dy / dist) * force;
+        }
+
         if (p.x < -2) p.x = canvas.width + 2;
         if (p.x > canvas.width + 2) p.x = -2;
         if (p.y < -2) p.y = canvas.height + 2;
@@ -75,14 +129,14 @@ export default function ParticleField() {
     createParticles();
     draw();
 
-    window.addEventListener("resize", () => {
-      resize();
-      createParticles();
-    });
+    const onResize = () => { resize(); createParticles(); };
+    window.addEventListener("resize", onResize);
 
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("scroll",    onScroll);
+      window.removeEventListener("resize",    onResize);
     };
   }, []);
 
