@@ -13,33 +13,54 @@ const navLinks = [
   { href: "/#contact", label: "Contact", sectionId: "contact" },
 ];
 
+// B: リンクごとのアクセントカラー
+const linkAccents: Record<string, string> = {
+  About:    "rgba(251,191,36,0.08)",
+  Skills:   "rgba(34,211,238,0.08)",
+  Projects: "rgba(167,139,250,0.08)",
+  Hobbies:  "rgba(52,211,153,0.08)",
+  Contact:  "rgba(251,113,133,0.08)",
+};
+
+// A: セクションIDを表示テキストに変換
+const sectionLabels: Record<string, string> = {
+  home:           "HOME",
+  about:          "ABOUT",
+  certifications: "CERTS",
+  contact:        "CONTACT",
+};
+
 export default function Navigation() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled]       = useState(false);
+  const [menuOpen, setMenuOpen]       = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const [bgLabel, setBgLabel]         = useState("PORTFOLIO");
+
+  const menuRef       = useRef<HTMLDivElement>(null);
+  const spotlightRef  = useRef<HTMLDivElement>(null);
+  const bgTextRef     = useRef<HTMLDivElement>(null);
+  const bgGradientRef = useRef<HTMLDivElement>(null);
+  const linkRefs      = useRef<(HTMLDivElement | null)[]>([]);
+  const bgTweenRef    = useRef<gsap.core.Tween | null>(null);
+
   const pathname = usePathname();
 
-  // 入場アニメーション + スクロール監視 + アクティブセクション検出
+  // 入場アニメーション + スクロール & アクティブセクション監視
   useEffect(() => {
     const tl = gsap.timeline({ delay: 1.8 });
-    tl.fromTo(".nav-logo", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" })
-      .fromTo(".nav-hamburger", { opacity: 0 }, { opacity: 1, duration: 0.4 }, "-=0.3");
+    tl.fromTo(".nav-logo",      { opacity: 0, x: -20 }, { opacity: 1, x: 0,  duration: 0.6, ease: "power3.out" })
+      .fromTo(".nav-hamburger", { opacity: 0 },          { opacity: 1,        duration: 0.4, ease: "power3.out" }, "-=0.3");
 
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
-
-      // ビューポート中心にどのセクションがあるか判定
-      const ids = ["home", "about", "certifications", "contact"];
+      const ids  = ["home", "about", "certifications", "contact"];
       const midY = window.innerHeight / 2;
       for (const id of ids) {
         const el = document.getElementById(id);
         if (!el) continue;
         const { top, bottom } = el.getBoundingClientRect();
-        if (top <= midY && bottom >= midY) {
-          setActiveSection(id);
-          break;
-        }
+        if (top <= midY && bottom >= midY) { setActiveSection(id); break; }
       }
     };
 
@@ -48,22 +69,51 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // メニュー開閉アニメーション
+  // メニュー開閉
   useEffect(() => {
     const menu = menuRef.current;
     if (!menu) return;
 
     if (menuOpen) {
+      // A: 背景テキストを現在のセクション名に設定
+      setBgLabel(sectionLabels[activeSection] || "PORTFOLIO");
+
       gsap.set(menu, { display: "flex" });
+      // スポットライト初期位置をセンターに
+      gsap.set(spotlightRef.current, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
+
       gsap.fromTo(menu, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" });
-      gsap.fromTo(
-        ".menu-link",
-        { y: 70, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, stagger: 0.07, ease: "power4.out", delay: 0.1 }
-      );
+
+      // E: 偶数リンクは左から、奇数は右から
+      linkRefs.current.forEach((el, i) => {
+        if (!el) return;
+        gsap.fromTo(
+          el,
+          { x: i % 2 === 0 ? -110 : 110, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.75, ease: "power4.out", delay: 0.08 + i * 0.07 }
+        );
+      });
+
       gsap.fromTo(".menu-meta", { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.55 });
+
       document.body.style.overflow = "hidden";
+
+      // A: 背景テキストスクロール開始
+      setTimeout(() => {
+        const bgText = bgTextRef.current;
+        if (!bgText) return;
+        const halfWidth = bgText.scrollWidth / 2;
+        bgTweenRef.current = gsap.fromTo(
+          bgText,
+          { x: 0 },
+          { x: -halfWidth, repeat: -1, duration: 18, ease: "none" }
+        );
+      }, 200);
+
     } else {
+      bgTweenRef.current?.kill();
+      setHoveredLink(null);
+      gsap.to(bgGradientRef.current, { opacity: 0, duration: 0.2 });
       gsap.to(menu, {
         opacity: 0,
         duration: 0.25,
@@ -80,9 +130,32 @@ export default function Navigation() {
     return false;
   };
 
+  // C: スポットライト追従
+  const handleMenuMouseMove = (e: React.MouseEvent) => {
+    gsap.to(spotlightRef.current, {
+      x: e.clientX, y: e.clientY,
+      duration: 0.55, ease: "power2.out",
+    });
+  };
+
+  // B: ホバー時のアクセントグラデーション
+  const handleLinkEnter = (label: string) => {
+    setHoveredLink(label);
+    if (bgGradientRef.current) {
+      bgGradientRef.current.style.background =
+        `radial-gradient(ellipse 70% 55% at 50% 50%, ${linkAccents[label]}, transparent)`;
+      gsap.to(bgGradientRef.current, { opacity: 1, duration: 0.4 });
+    }
+  };
+
+  const handleLinkLeave = () => {
+    setHoveredLink(null);
+    gsap.to(bgGradientRef.current, { opacity: 0, duration: 0.35 });
+  };
+
   return (
     <>
-      {/* バー */}
+      {/* ナビバー */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-12 py-5 transition-all duration-500 ${
           scrolled ? "backdrop-blur-xl bg-[#0a0a0a]/90 border-b border-white/[0.06]" : ""
@@ -92,72 +165,103 @@ export default function Navigation() {
           <span className="text-lg font-black tracking-tight text-white">KS.</span>
         </Link>
 
-        {/* ハンバーガー */}
         <button
-          className="nav-hamburger opacity-0 flex flex-col justify-center gap-[5px] w-8 h-8 relative"
+          className="nav-hamburger opacity-0 flex flex-col justify-center gap-[5px] w-8 h-8"
           onClick={() => setMenuOpen((v) => !v)}
           aria-label="Toggle menu"
         >
-          <span
-            className="block h-px bg-white origin-center transition-all duration-300"
-            style={{
-              transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none",
-              width: "100%",
-            }}
-          />
-          <span
-            className="block h-px bg-white transition-all duration-300"
-            style={{
-              opacity: menuOpen ? 0 : 1,
-              width: "66%",
-            }}
-          />
-          <span
-            className="block h-px bg-white origin-center transition-all duration-300"
-            style={{
-              transform: menuOpen ? "translateY(-9px) rotate(-45deg)" : "none",
-              width: "100%",
-            }}
-          />
+          <span className="block h-px bg-white origin-center transition-all duration-300 w-full"
+            style={{ transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none" }} />
+          <span className="block h-px bg-white transition-all duration-300"
+            style={{ opacity: menuOpen ? 0 : 1, width: "66%" }} />
+          <span className="block h-px bg-white origin-center transition-all duration-300 w-full"
+            style={{ transform: menuOpen ? "translateY(-9px) rotate(-45deg)" : "none" }} />
         </button>
       </nav>
 
       {/* フルスクリーンメニュー */}
       <div
         ref={menuRef}
-        className="fixed inset-0 z-40 bg-[#0a0a0a] hidden flex-col justify-center px-10 md:px-20"
+        className="fixed inset-0 z-40 bg-[#0a0a0a] hidden flex-col justify-center overflow-hidden"
+        onMouseMove={handleMenuMouseMove}
       >
-        <nav className="space-y-1">
+        {/* A: 背景スクロールテキスト */}
+        <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
+          <div ref={bgTextRef} className="flex whitespace-nowrap">
+            {[...Array(8)].map((_, i) => (
+              <span
+                key={i}
+                className="font-black uppercase"
+                style={{ fontSize: "21vw", lineHeight: 1, color: "rgba(248,248,246,0.022)", padding: "0 4vw" }}
+              >
+                {bgLabel}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* B: リンクごとのアクセントグラデーション */}
+        <div
+          ref={bgGradientRef}
+          className="absolute inset-0 pointer-events-none opacity-0"
+        />
+
+        {/* C: スポットライト */}
+        <div
+          ref={spotlightRef}
+          className="absolute pointer-events-none rounded-full"
+          style={{
+            width: "520px", height: "520px",
+            top: 0, left: 0,
+            transform: "translate(-50%, -50%)",
+            background: "radial-gradient(circle, rgba(248,248,246,0.05) 0%, transparent 65%)",
+          }}
+        />
+
+        {/* ナビリンク */}
+        <nav className="relative z-10 space-y-0 px-10 md:px-20">
           {navLinks.map((link, i) => (
-            <div key={link.href} className="overflow-hidden">
+            <div
+              key={link.href}
+              ref={(el) => { linkRefs.current[i] = el; }}
+              onMouseEnter={() => handleLinkEnter(link.label)}
+              onMouseLeave={handleLinkLeave}
+            >
               <Link
                 href={link.href}
-                className="menu-link block font-black tracking-tight leading-none py-3 transition-colors duration-200 group flex items-baseline gap-5"
-                style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
+                className="group flex items-baseline gap-5 py-2"
+                style={{ fontSize: "clamp(38px, 7vw, 90px)" }}
                 onClick={() => setMenuOpen(false)}
               >
+                {/* D: ホバーで他リンクが暗くなる */}
                 <span
-                  className={`transition-colors duration-200 ${
-                    isActive(link) ? "text-white" : "text-white/15 group-hover:text-white/70"
-                  }`}
+                  className="font-black tracking-tight leading-none transition-all duration-200"
+                  style={{
+                    color: "#f8f8f6",
+                    opacity: hoveredLink
+                      ? hoveredLink === link.label ? 1 : 0.05
+                      : isActive(link) ? 1 : 0.18,
+                  }}
                 >
                   {link.label}
                 </span>
-                <span className="text-[10px] tracking-[0.3em] uppercase font-normal text-white/20 group-hover:text-white/40 transition-colors duration-200 self-center">
+                <span
+                  className="text-[10px] tracking-[0.3em] uppercase font-normal transition-opacity duration-200"
+                  style={{
+                    color: "#f8f8f6",
+                    opacity: hoveredLink === link.label ? 0.35 : 0.1,
+                  }}
+                >
                   {String(i + 1).padStart(2, "0")}
+                  {isActive(link) && <span className="ml-3">— now</span>}
                 </span>
-                {isActive(link) && (
-                  <span className="text-[9px] tracking-[0.35em] uppercase font-normal text-white/30 self-center">
-                    — now
-                  </span>
-                )}
               </Link>
             </div>
           ))}
         </nav>
 
         {/* フッターメタ */}
-        <div className="menu-meta absolute bottom-10 left-10 md:left-20 right-10 md:right-20 flex justify-between text-white/20 text-[9px] tracking-[0.35em] uppercase">
+        <div className="menu-meta absolute bottom-10 left-10 md:left-20 right-10 md:right-20 flex justify-between text-white/[0.18] text-[9px] tracking-[0.35em] uppercase">
           <span>Portfolio — 工藤 翔太</span>
           <span>Frontend Engineer / UI Designer</span>
         </div>
