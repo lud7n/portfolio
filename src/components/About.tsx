@@ -71,12 +71,16 @@ export default function About() {
       );
       gsap.fromTo(
         ".about-heading",
-        { rotateX: 65, opacity: 0, y: 30 },
+        { x: -120, opacity: 0 },
         {
-          rotateX: 0, opacity: 1, y: 0,
-          duration: 1.1, ease: "power3.out", delay: 0.15,
-          transformOrigin: "center bottom",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+          x: 0, opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            end: "top 25%",
+            scrub: 1.2,
+          },
         }
       );
       gsap.fromTo(
