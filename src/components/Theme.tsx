@@ -42,7 +42,7 @@ export default function Theme() {
       );
       gsap.fromTo(
         ".theme-heading",
-        { x: -120, opacity: 0 },
+        { x: -280, opacity: 0 },
         {
           x: 0, opacity: 1,
           ease: "none",
