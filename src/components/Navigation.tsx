@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
-import Logo from "@/components/Logo";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -47,8 +46,7 @@ export default function Navigation() {
   // 入場アニメーション + スクロール & アクティブセクション監視
   useEffect(() => {
     const tl = gsap.timeline({ delay: 1.8 });
-    tl.fromTo(".nav-logo",      { opacity: 0, x: -20 }, { opacity: 1, x: 0,  duration: 0.6, ease: "power3.out" })
-      .fromTo(".nav-hamburger", { opacity: 0 },          { opacity: 1,        duration: 0.4, ease: "power3.out" }, "-=0.3");
+    tl.fromTo(".nav-hamburger", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power3.out" });
 
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
@@ -143,8 +141,6 @@ export default function Navigation() {
           scrolled ? "backdrop-blur-xl bg-[#0a0a0a]/90 border-b border-white/[0.06]" : ""
         }`}
       >
-        <Logo className="nav-logo opacity-0" />
-
         <button
           className="nav-hamburger opacity-0 flex flex-col justify-center gap-[5px] w-8 h-8"
           onClick={() => setMenuOpen((v) => !v)}
