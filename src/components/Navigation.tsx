@@ -35,14 +35,11 @@ export default function Navigation() {
   const [menuOpen, setMenuOpen]       = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
-  const [bgLabel, setBgLabel]         = useState("PORTFOLIO");
 
   const menuRef       = useRef<HTMLDivElement>(null);
   const spotlightRef  = useRef<HTMLDivElement>(null);
-  const bgTextRef     = useRef<HTMLDivElement>(null);
   const bgGradientRef = useRef<HTMLDivElement>(null);
   const linkRefs      = useRef<(HTMLDivElement | null)[]>([]);
-  const bgTweenRef    = useRef<gsap.core.Tween | null>(null);
 
   const pathname = usePathname();
 
@@ -75,9 +72,6 @@ export default function Navigation() {
     if (!menu) return;
 
     if (menuOpen) {
-      // A: 背景テキストを現在のセクション名に設定
-      setBgLabel(sectionLabels[activeSection] || "PORTFOLIO");
-
       gsap.set(menu, { display: "flex" });
       // スポットライト初期位置をセンターに
       gsap.set(spotlightRef.current, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
@@ -98,20 +92,7 @@ export default function Navigation() {
 
       document.body.style.overflow = "hidden";
 
-      // A: 背景テキストスクロール開始
-      setTimeout(() => {
-        const bgText = bgTextRef.current;
-        if (!bgText) return;
-        const halfWidth = bgText.scrollWidth / 2;
-        bgTweenRef.current = gsap.fromTo(
-          bgText,
-          { x: 0 },
-          { x: -halfWidth, repeat: -1, duration: 18, ease: "none" }
-        );
-      }, 200);
-
     } else {
-      bgTweenRef.current?.kill();
       setHoveredLink(null);
       gsap.to(bgGradientRef.current, { opacity: 0, duration: 0.2 });
       gsap.to(menu, {
@@ -182,24 +163,10 @@ export default function Navigation() {
       {/* フルスクリーンメニュー */}
       <div
         ref={menuRef}
-        className="fixed inset-0 z-40 bg-[#0a0a0a] hidden flex-col justify-center overflow-hidden"
+        className="fixed inset-0 z-40 hidden flex-col justify-center overflow-hidden backdrop-blur-2xl"
+        style={{ background: "rgba(10,10,10,0.75)" }}
         onMouseMove={handleMenuMouseMove}
       >
-        {/* A: 背景スクロールテキスト */}
-        <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
-          <div ref={bgTextRef} className="flex whitespace-nowrap">
-            {[...Array(8)].map((_, i) => (
-              <span
-                key={i}
-                className="font-black uppercase"
-                style={{ fontSize: "21vw", lineHeight: 1, color: "rgba(248,248,246,0.022)", padding: "0 4vw" }}
-              >
-                {bgLabel}
-              </span>
-            ))}
-          </div>
-        </div>
-
         {/* B: リンクごとのアクセントグラデーション */}
         <div
           ref={bgGradientRef}
