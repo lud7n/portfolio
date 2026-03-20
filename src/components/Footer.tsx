@@ -1,6 +1,10 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const socials = [
   {
@@ -48,6 +52,32 @@ const socials = [
 ];
 
 export default function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".footer-left",
+        { x: -40, opacity: 0 },
+        {
+          x: 0, opacity: 1, duration: 0.8, ease: "power3.out",
+          scrollTrigger: { trigger: footerRef.current, start: "top 95%" },
+        }
+      );
+      gsap.fromTo(
+        ".footer-icon",
+        { x: 30, opacity: 0 },
+        {
+          x: 0, opacity: 1, duration: 0.6, ease: "power3.out",
+          stagger: 0.08, delay: 0.15,
+          scrollTrigger: { trigger: footerRef.current, start: "top 95%" },
+        }
+      );
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const el = e.currentTarget;
     const rect = el.getBoundingClientRect();
@@ -61,8 +91,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-white/[0.06] py-10 px-8 md:px-16 flex flex-col md:flex-row items-center justify-between gap-6">
-      <p className="text-white/20 text-[10px] tracking-[0.25em] uppercase">© 2026 lud7n</p>
+    <footer ref={footerRef} className="border-t border-white/[0.06] py-10 px-8 md:px-16 flex flex-col md:flex-row items-center justify-between gap-6">
+      <p className="footer-left text-white/20 text-[10px] tracking-[0.25em] uppercase">© 2026 lud7n</p>
 
       <div className="flex items-center gap-8">
         {socials.map((s) => (
@@ -74,7 +104,7 @@ export default function Footer() {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             aria-label={s.label}
-            className="flex flex-col items-center gap-2 group"
+            className="footer-icon flex flex-col items-center gap-2 group"
           >
             <svg
               viewBox="0 0 24 24"
