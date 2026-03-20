@@ -163,8 +163,8 @@ export default function Navigation() {
       {/* フルスクリーンメニュー */}
       <div
         ref={menuRef}
-        className="fixed inset-0 z-40 hidden flex-col justify-center overflow-hidden backdrop-blur-2xl"
-        style={{ background: "rgba(10,10,10,0.75)" }}
+        className="fixed inset-0 z-40 hidden flex-col justify-center overflow-hidden backdrop-blur-md"
+        style={{ background: "rgba(10,10,10,0.6)" }}
         onMouseMove={handleMenuMouseMove}
       >
         {/* B: リンクごとのアクセントグラデーション */}
