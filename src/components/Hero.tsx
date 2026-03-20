@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ParticleField from "@/components/ParticleField";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,6 +95,9 @@ export default function Hero() {
       id="home"
       className="relative h-screen w-full overflow-hidden flex flex-col justify-center px-8 md:px-20"
     >
+      {/* パーティクル */}
+      <ParticleField />
+
       {/* 背景の大きなKS文字 */}
       <div
         className="hero-bg-text absolute right-0 bottom-0 font-black leading-none select-none pointer-events-none text-black/[0.04]"
