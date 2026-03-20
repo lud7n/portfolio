@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -142,9 +143,7 @@ export default function Navigation() {
           scrolled ? "backdrop-blur-xl bg-[#0a0a0a]/90 border-b border-white/[0.06]" : ""
         }`}
       >
-        <Link href="/" className="nav-logo opacity-0">
-          <span className="text-lg font-black tracking-tight text-white">KS.</span>
-        </Link>
+        <Logo className="nav-logo opacity-0" />
 
         <button
           className="nav-hamburger opacity-0 flex flex-col justify-center gap-[5px] w-8 h-8"
