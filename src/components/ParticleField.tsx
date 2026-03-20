@@ -32,14 +32,14 @@ export default function ParticleField() {
     };
 
     const createParticles = () => {
-      const count = Math.floor((window.innerWidth * window.innerHeight) / 1200);
+      const count = Math.floor((window.innerWidth * window.innerHeight) / 400);
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
         vx: (Math.random() - 0.5) * 0.18,
         vy: (Math.random() - 0.5) * 0.18,
         size: Math.random() * 1.4 + 0.4,
-        opacity: Math.random() * 0.18 + 0.04,
+        opacity: Math.random() * 0.45 + 0.15,
         wobbleOffset: Math.random() * Math.PI * 2,
         wobbleSpeed: Math.random() * 0.008 + 0.003,
         wobbleAmp: Math.random() * 0.6 + 0.2,
