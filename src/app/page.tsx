@@ -5,14 +5,34 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import Certifications from "@/components/Certifications";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function addZoomTransition(id: string) {
+  gsap.fromTo(
+    id,
+    { scale: 0.72, opacity: 0 },
+    {
+      scale: 1,
+      opacity: 1,
+      transformOrigin: "center center",
+      ease: "none",
+      scrollTrigger: {
+        trigger: id,
+        start: "top 95%",
+        end: "top 5%",
+        scrub: 1.0,
+      },
+    }
+  );
+}
+
 export default function Home() {
   useEffect(() => {
-    // Hero → 手前に拡大しながらフェードアウト
+    // Hero → 手前に大きく拡大しながらフェードアウト
     gsap.to("#home", {
-      scale: 1.18,
+      scale: 1.45,
       opacity: 0,
       transformOrigin: "center center",
       ease: "none",
@@ -20,35 +40,21 @@ export default function Home() {
         trigger: "#home",
         start: "top top",
         end: "bottom top",
-        scrub: 1.2,
+        scrub: 1.0,
       },
     });
 
-    // About → 奥から迫ってくる
-    gsap.fromTo(
-      "#about",
-      { scale: 0.82, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        transformOrigin: "center center",
-        ease: "none",
-        scrollTrigger: {
-          trigger: "#about",
-          start: "top 90%",
-          end: "top 10%",
-          scrub: 1.2,
-        },
-      }
-    );
+    addZoomTransition("#about");
+    addZoomTransition("#certifications");
 
     return () => ScrollTrigger.getAll().forEach((t) => t.kill());
   }, []);
 
   return (
-    <div style={{ perspective: "1200px" }}>
+    <div style={{ perspective: "1400px" }}>
       <Hero />
       <About />
+      <Certifications />
     </div>
   );
 }
