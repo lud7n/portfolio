@@ -73,11 +73,11 @@ export default function Contact() {
       style={{ paddingTop: "14rem" }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-16 text-center" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}>
-        <span className="contact-tag inline-block text-[10px] tracking-[0.35em] uppercase text-black/30 border border-black/10 px-3 py-1.5 rounded-full mb-10">
+        <span className="contact-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/30 border border-white/10 px-3 py-1.5 rounded-full mb-10">
           Contact
         </span>
 
-        <h2 className="contact-heading text-2xl md:text-3xl font-light tracking-[0.1em] text-black/50 mb-4">
+        <h2 className="contact-heading text-2xl md:text-3xl font-light tracking-[0.1em] text-white/50 mb-4">
           お気軽にご連絡ください
         </h2>
 
@@ -91,7 +91,7 @@ export default function Contact() {
               <a
                 key={s.label}
                 href={s.href}
-                className="text-[11px] text-white/20 hover:text-black/50 transition-colors duration-200 tracking-[0.2em] uppercase"
+                className="text-[11px] text-white/20 hover:text-white/50 transition-colors duration-200 tracking-[0.2em] uppercase"
               >
                 {s.label}
               </a>

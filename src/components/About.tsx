@@ -74,7 +74,7 @@ export default function About() {
       className="pt-64 pb-36 w-full"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-16">
-      <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-black/40 border border-black/15 px-3 py-1.5 rounded-full mb-8">
+      <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
         About Me
       </span>
 
@@ -88,16 +88,16 @@ export default function About() {
             </span>
           </h2>
           <div className="about-body space-y-4">
-            <p className="text-black/50 text-base md:text-lg leading-relaxed">
+            <p className="text-white/50 text-base md:text-lg leading-relaxed">
               新卒入社後はERPシステム開発に参画し、UI設計とフロントエンド実装を担当。
               現在は新規機能開発ユニットで、ユーザー体験を最優先としたUI設計に取り組んでいます。
             </p>
-            <p className="text-black/50 text-base md:text-lg leading-relaxed">
+            <p className="text-white/50 text-base md:text-lg leading-relaxed">
               大学4年間でFigma・Illustratorを使った制作活動を積み重ね、
               UI/UXデザインの設計力を培いました。
               ビジュアル先行ではなく、情報設計から考えるアプローチが強みです。
             </p>
-            <p className="text-black/50 text-base md:text-lg leading-relaxed">
+            <p className="text-white/50 text-base md:text-lg leading-relaxed">
               大学2年からAtCoderに継続的に取り組み、Highestレートで緑色上位に到達。
               設計力だけでなく、実装の問題解決力も備えています。
             </p>
@@ -107,12 +107,12 @@ export default function About() {
         <div className="stats-grid space-y-6">
           {stats.map((s) => (
             <div key={s.label} className="stat-card group">
-              <div className="h-px bg-black/10 mb-5 group-hover:bg-black/25 transition-colors duration-500" />
+              <div className="h-px bg-white/10 mb-5 group-hover:bg-white/25 transition-colors duration-500" />
               <div className="flex items-baseline justify-between">
                 <div className="text-4xl font-black bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
                   {s.num}
                 </div>
-                <div className="text-[10px] text-black/30 tracking-[0.25em] uppercase">{s.label}</div>
+                <div className="text-[10px] text-white/30 tracking-[0.25em] uppercase">{s.label}</div>
               </div>
             </div>
           ))}

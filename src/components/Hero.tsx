@@ -100,23 +100,23 @@ export default function Hero() {
 
       {/* 背景の大きなKS文字 */}
       <div
-        className="hero-bg-text absolute right-0 bottom-0 font-black leading-none select-none pointer-events-none text-black/[0.04]"
+        className="hero-bg-text absolute right-0 bottom-0 font-black leading-none select-none pointer-events-none text-white/[0.04]"
         style={{ fontSize: "28vw" }}
       >
         KS
       </div>
 
       {/* 細いボーダーライン（上部） */}
-      <div className="absolute top-24 left-8 md:left-20 right-8 md:right-20 h-px bg-black/8" />
+      <div className="absolute top-24 left-8 md:left-20 right-8 md:right-20 h-px bg-white/8" />
 
       <div className="relative z-10 w-full max-w-7xl">
         {/* Line 1 — 通常テキスト */}
         <div className="hero-line-1">
-          <p className="text-[10px] tracking-[0.45em] uppercase text-black/30 mb-5 font-medium">
+          <p className="text-[10px] tracking-[0.45em] uppercase text-white/30 mb-5 font-medium">
             Frontend Engineer / UI Designer
           </p>
           <h1
-            className="font-black tracking-[-0.03em] leading-[0.88] text-black"
+            className="font-black tracking-[-0.03em] leading-[0.88] text-white"
             style={{ fontSize: "clamp(52px, 9.5vw, 130px)" }}
           >
             Optimize my
@@ -129,7 +129,7 @@ export default function Hero() {
             className="font-black tracking-[-0.03em] leading-[0.88]"
             style={{
               fontSize: "clamp(52px, 9.5vw, 130px)",
-              WebkitTextStroke: "1.5px #0a0a0a",
+              WebkitTextStroke: "1.5px #f8f8f6",
               color: "transparent",
             }}
           >
@@ -139,8 +139,8 @@ export default function Hero() {
 
         {/* メタ情報 */}
         <div className="hero-meta flex items-center gap-6 mt-10">
-          <div className="h-px w-12 bg-black/20" />
-          <p className="text-xs text-black/35 tracking-[0.25em] uppercase">
+          <div className="h-px w-12 bg-white/20" />
+          <p className="text-xs text-white/35 tracking-[0.25em] uppercase">
             目標を常に最適化し続けること
           </p>
         </div>
@@ -149,7 +149,7 @@ export default function Hero() {
       {/* スクロールインジケーター */}
       <div className="hero-scroll absolute bottom-10 right-8 md:right-20 flex flex-col items-center gap-3">
         <span
-          className="text-[9px] tracking-[0.4em] uppercase text-black/25"
+          className="text-[9px] tracking-[0.4em] uppercase text-white/25"
           style={{ writingMode: "vertical-rl" }}
         >
           Scroll
