@@ -72,10 +72,11 @@ export default function About() {
       );
       gsap.fromTo(
         ".about-heading",
-        { clipPath: "inset(0 0 100% 0)", y: 16 },
+        { clipPath: "inset(0 100% 0 0)", x: -40, opacity: 0 },
         {
-          clipPath: "inset(0 0 0% 0)",
-          y: 0,
+          clipPath: "inset(0 0% 0 0)",
+          x: 0,
+          opacity: 1,
           duration: 1.0,
           ease: "power3.out",
           delay: 0.15,
