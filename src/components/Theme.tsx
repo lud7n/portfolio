@@ -71,7 +71,7 @@ export default function Theme() {
       ref={sectionRef}
       id="theme"
       className="w-full"
-      style={{ paddingTop: "18rem", paddingBottom: "10rem" }}
+      style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
     >
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         {/* ヘッダー行 */}
