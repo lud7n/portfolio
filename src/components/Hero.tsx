@@ -109,7 +109,7 @@ export default function Hero() {
       {/* 細いボーダーライン（上部） */}
       <div className="absolute top-24 left-8 md:left-20 right-8 md:right-20 h-px bg-white/8" />
 
-      <div className="relative z-10 w-full max-w-7xl">
+      <div className="relative z-10 w-full max-w-5xl mx-auto">
         {/* Line 1 — 通常テキスト */}
         <div className="hero-line-1">
           <p className="text-[10px] tracking-[0.45em] uppercase text-white/30 mb-5 font-medium">

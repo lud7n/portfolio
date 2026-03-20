@@ -72,7 +72,7 @@ export default function Contact() {
       className="pb-24 w-full"
       style={{ paddingTop: "14rem" }}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-16 text-center" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}>
+      <div className="max-w-5xl mx-auto px-6 md:px-16 text-center" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}>
         <span className="contact-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/30 border border-white/10 px-3 py-1.5 rounded-full mb-10">
           Contact
         </span>

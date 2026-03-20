@@ -73,7 +73,7 @@ export default function About() {
       id="about"
       className="pt-64 pb-36 w-full"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-16">
+      <div className="max-w-5xl mx-auto px-6 md:px-16">
       <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
         About Me
       </span>
