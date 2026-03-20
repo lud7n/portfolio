@@ -4,7 +4,6 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/CustomCursor";
 import Navigation from "@/components/Navigation";
-import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 const inter = Inter({
@@ -30,7 +29,6 @@ export default function RootLayout({
           <div className="bg-[#0a0a0a] min-h-screen text-[#f8f8f6] overflow-hidden">
             <Navigation />
             {children}
-            <Contact />
             <Footer />
           </div>
         </SmoothScrollProvider>
