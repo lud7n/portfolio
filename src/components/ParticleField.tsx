@@ -82,8 +82,8 @@ export default function ParticleField() {
       // F: カーソルが2秒静止したら gather 強度を上げる
       // hasMoved が true の場合のみ発動（初期状態では collect しない）
       const idle = Date.now() - lastMoveTime;
-      if (hasMoved && idle > 2000) {
-        gatherStrength = Math.min(1, gatherStrength + 0.003);
+      if (hasMoved && idle > 800) {
+        gatherStrength = Math.min(1, gatherStrength + 0.008);
       } else {
         gatherStrength = Math.max(0, gatherStrength - 0.05);
       }
