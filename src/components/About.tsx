@@ -120,15 +120,15 @@ export default function About() {
     >
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
-          Design meets Engineering
+          About Me
         </span>
 
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight" style={{ perspective: "600px" }}>
-              About
+              Design meets
               <br />
-              <span className="text-black">me.</span>
+              <span className="text-black">Engineering</span>
             </h2>
             <div className="about-body space-y-4">
               <p className="text-white/50 text-base md:text-lg leading-relaxed">
