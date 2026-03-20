@@ -3,7 +3,6 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ScrambleText from "@/components/ScrambleText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,13 +71,16 @@ export default function About() {
       );
       gsap.fromTo(
         ".about-heading",
-        { y: 30, opacity: 0 },
+        { x: -280, opacity: 0 },
         {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          delay: 0.15,
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+          x: 0, opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            end: "top 25%",
+            scrub: 1.2,
+          },
         }
       );
       gsap.fromTo(
@@ -113,7 +115,8 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="pt-96 pb-56 w-full"
+      className="w-full"
+      style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
     >
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
@@ -122,12 +125,10 @@ export default function About() {
 
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight">
-              <ScrambleText text="Design meets" delay={200} />
+            <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight" style={{ perspective: "600px" }}>
+              Design meets
               <br />
-              <span className="text-black">
-                <ScrambleText text="Engineering" delay={500} />
-              </span>
+              <span className="text-black">Engineering</span>
             </h2>
             <div className="about-body space-y-4">
               <p className="text-white/50 text-base md:text-lg leading-relaxed">

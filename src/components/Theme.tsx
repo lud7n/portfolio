@@ -3,7 +3,6 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ScrambleText from "@/components/ScrambleText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,6 +41,20 @@ export default function Theme() {
         }
       );
       gsap.fromTo(
+        ".theme-heading",
+        { x: -280, opacity: 0 },
+        {
+          x: 0, opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            end: "top 25%",
+            scrub: 1.2,
+          },
+        }
+      );
+      gsap.fromTo(
         ".theme-line",
         { y: 24, opacity: 0 },
         {
@@ -61,7 +74,8 @@ export default function Theme() {
     <section
       ref={sectionRef}
       id="theme"
-      className="pt-96 pb-56 w-full"
+      className="w-full"
+      style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
     >
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         {/* ヘッダー行 */}
@@ -75,12 +89,10 @@ export default function Theme() {
         </div>
 
         {/* 見出し */}
-        <h2 className="theme-line text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16">
-          <ScrambleText text="Ver 4.0 Cosmos" delay={200} />
+        <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16" style={{ perspective: "600px" }}>
+          Ver 4.0 Cosmos
           <br />
-          <span className="text-black">
-            <ScrambleText text="Philosophy" delay={500} />
-          </span>
+          <span className="text-black">Philosophy</span>
         </h2>
 
         {/* 本文 */}
