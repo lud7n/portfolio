@@ -40,17 +40,16 @@ export default function Theme() {
           scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         }
       );
-      gsap.from(".theme-heading .word-fly", {
-        x: (i: number) => [-200, 140, -160, 120][i] ?? -200,
-        y: (i: number) => [80, -90, 110, -70][i] ?? 80,
-        rotation: (i: number) => [-14, 11, -10, 13][i] ?? -14,
-        opacity: 0,
-        duration: 1.1,
-        stagger: 0.09,
-        ease: "power4.out",
-        delay: 0.1,
-        scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
-      });
+      gsap.fromTo(
+        ".theme-heading",
+        { rotateX: 65, opacity: 0, y: 30 },
+        {
+          rotateX: 0, opacity: 1, y: 0,
+          duration: 1.1, ease: "power3.out", delay: 0.15,
+          transformOrigin: "center bottom",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+        }
+      );
       gsap.fromTo(
         ".theme-line",
         { y: 24, opacity: 0 },
@@ -85,14 +84,10 @@ export default function Theme() {
         </div>
 
         {/* 見出し */}
-        <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16">
-          <span className="word-fly inline-block">Ver</span>{" "}
-          <span className="word-fly inline-block">4.0</span>{" "}
-          <span className="word-fly inline-block">Cosmos</span>
+        <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16" style={{ perspective: "600px" }}>
+          Ver 4.0 Cosmos
           <br />
-          <span className="text-black">
-            <span className="word-fly inline-block">Philosophy</span>
-          </span>
+          <span className="text-black">Philosophy</span>
         </h2>
 
         {/* 本文 */}

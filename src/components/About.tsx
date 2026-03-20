@@ -69,17 +69,16 @@ export default function About() {
           scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         }
       );
-      gsap.from(".about-heading .word-fly", {
-        x: (i: number) => [-220, 160, -100][i] ?? -100,
-        y: (i: number) => [90, -110, 130][i] ?? 90,
-        rotation: (i: number) => [-16, 12, -9][i] ?? -10,
-        opacity: 0,
-        duration: 1.1,
-        stagger: 0.1,
-        ease: "power4.out",
-        delay: 0.1,
-        scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
-      });
+      gsap.fromTo(
+        ".about-heading",
+        { rotateX: 65, opacity: 0, y: 30 },
+        {
+          rotateX: 0, opacity: 1, y: 0,
+          duration: 1.1, ease: "power3.out", delay: 0.15,
+          transformOrigin: "center bottom",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+        }
+      );
       gsap.fromTo(
         ".about-body",
         { y: 20, opacity: 0 },
@@ -121,13 +120,10 @@ export default function About() {
 
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight">
-              <span className="word-fly inline-block">Design</span>{" "}
-              <span className="word-fly inline-block">meets</span>
+            <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight" style={{ perspective: "600px" }}>
+              Design meets
               <br />
-              <span className="text-black">
-                <span className="word-fly inline-block">Engineering</span>
-              </span>
+              <span className="text-black">Engineering</span>
             </h2>
             <div className="about-body space-y-4">
               <p className="text-white/50 text-base md:text-lg leading-relaxed">
