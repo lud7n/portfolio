@@ -26,10 +26,11 @@ export default function ParticleField() {
     let animId: number;
     let particles: Particle[] = [];
 
-    // F: カーソル追従・静止検知
+    // F: カーソル位置・静止検知
     let mouseX = -9999;
     let mouseY = -9999;
-    let lastMoveTime = 0;
+    let hasMoved   = false;
+    let lastMoveTime = Date.now(); // 0ではなく現在時刻で初期化
     let gatherStrength = 0;
 
     // I: スクロール速度
@@ -39,18 +40,19 @@ export default function ParticleField() {
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      hasMoved     = true;
       lastMoveTime = Date.now();
     };
 
     const onScroll = () => {
       const current = window.scrollY;
-      const delta = Math.abs(current - lastScrollY);
-      scrollSpeed = Math.min(delta * 0.25, 4);
-      lastScrollY = current;
+      const delta   = Math.abs(current - lastScrollY);
+      scrollSpeed   = Math.min(delta * 0.3, 5);
+      lastScrollY   = current;
     };
 
     window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll",    onScroll, { passive: true });
 
     const resize = () => {
       canvas.width  = window.innerWidth;
@@ -64,11 +66,11 @@ export default function ParticleField() {
         y: Math.random() * window.innerHeight,
         vx: (Math.random() - 0.5) * 0.18,
         vy: (Math.random() - 0.5) * 0.18,
-        size: Math.random() * 1.4 + 0.4,
-        opacity: Math.random() * 0.45 + 0.15,
+        size:         Math.random() * 1.4 + 0.4,
+        opacity:      Math.random() * 0.45 + 0.15,
         wobbleOffset: Math.random() * Math.PI * 2,
-        wobbleSpeed: Math.random() * 0.008 + 0.003,
-        wobbleAmp: Math.random() * 0.6 + 0.2,
+        wobbleSpeed:  Math.random() * 0.008 + 0.003,
+        wobbleAmp:    Math.random() * 0.6 + 0.2,
       }));
     };
 
@@ -77,12 +79,13 @@ export default function ParticleField() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       t += 1;
 
-      // F: 静止 2秒後からgather強度を上げる、動くとリセット
+      // F: カーソルが2秒静止したら gather 強度を上げる
+      // hasMoved が true の場合のみ発動（初期状態では collect しない）
       const idle = Date.now() - lastMoveTime;
-      if (idle > 2000) {
-        gatherStrength = Math.min(1, gatherStrength + 0.002);
+      if (hasMoved && idle > 2000) {
+        gatherStrength = Math.min(1, gatherStrength + 0.003);
       } else {
-        gatherStrength = Math.max(0, gatherStrength - 0.06);
+        gatherStrength = Math.max(0, gatherStrength - 0.05);
       }
 
       // I: スクロール速度を減衰
@@ -93,22 +96,20 @@ export default function ParticleField() {
         const wobbleX = Math.sin(t * p.wobbleSpeed + p.wobbleOffset) * p.wobbleAmp * 0.04;
         const wobbleY = Math.cos(t * p.wobbleSpeed * 0.7 + p.wobbleOffset) * p.wobbleAmp * 0.04;
 
-        let dvx = 0;
-        let dvy = 0;
+        // I: スクロール時は通常移動を加速
+        p.x += (p.vx + wobbleX) * speedMult;
+        p.y += (p.vy + wobbleY) * speedMult;
 
-        // F: カーソル方向へ引力
+        // F: gather — 距離に応じた引力（スクロール倍率には乗せない）
         if (gatherStrength > 0) {
           const dx   = mouseX - p.x;
           const dy   = mouseY - p.y;
           const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          const force = gatherStrength * 0.012;
-          dvx = (dx / dist) * force;
-          dvy = (dy / dist) * force;
+          // 近いほど弱く（行き過ぎ防止）、遠いほど強く引く
+          const force = Math.min(dist * 0.08, 2.5) * gatherStrength;
+          p.x += (dx / dist) * force;
+          p.y += (dy / dist) * force;
         }
-
-        // I: スクロール速度でwobble量を増幅
-        p.x += (p.vx + wobbleX * speedMult + dvx) * speedMult;
-        p.y += (p.vy + wobbleY * speedMult + dvy) * speedMult;
 
         if (p.x < -2) p.x = canvas.width + 2;
         if (p.x > canvas.width + 2) p.x = -2;
@@ -134,8 +135,8 @@ export default function ParticleField() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll",    onScroll);
+      window.removeEventListener("resize",    onResize);
     };
   }, []);
 
