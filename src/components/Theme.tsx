@@ -70,7 +70,7 @@ export default function Theme() {
     <section
       ref={sectionRef}
       id="theme"
-      className="pt-96 pb-56 w-full"
+      className="pt-[44rem] pb-[28rem] w-full"
     >
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         {/* ヘッダー行 */}
