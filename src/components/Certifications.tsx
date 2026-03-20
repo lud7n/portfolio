@@ -86,7 +86,8 @@ export default function Certifications() {
     <section
       ref={sectionRef}
       id="certifications"
-      className="pt-[44rem] pb-[28rem] w-full"
+      className="w-full"
+      style={{ paddingTop: "52rem", paddingBottom: "32rem" }}
     >
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         <span className="cert-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
