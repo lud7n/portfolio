@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrambleText from "@/components/ScrambleText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -95,9 +96,11 @@ export default function Certifications() {
         </span>
 
         <h2 className="cert-heading text-5xl md:text-6xl font-black leading-tight mb-20 tracking-tight">
-          Proven
+          <ScrambleText text="Proven" delay={200} />
           <br />
-          <span className="text-black">Knowledge</span>
+          <span className="text-black">
+            <ScrambleText text="Knowledge" delay={500} />
+          </span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-16">

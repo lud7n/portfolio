@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Certifications from "@/components/Certifications";
+import MarqueeStrip from "@/components/MarqueeStrip";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,7 +54,9 @@ export default function Home() {
   return (
     <div style={{ perspective: "1400px" }}>
       <Hero />
+      <MarqueeStrip />
       <About />
+      <MarqueeStrip reverse />
       <Certifications />
     </div>
   );
