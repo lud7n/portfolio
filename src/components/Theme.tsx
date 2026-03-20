@@ -76,7 +76,7 @@ export default function Theme() {
 
         {/* 見出し */}
         <h2 className="theme-line text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16">
-          <ScrambleText text="Design" delay={200} />
+          <ScrambleText text="Ver 4.0 Cosmos" delay={200} />
           <br />
           <span className="text-black">
             <ScrambleText text="Philosophy" delay={500} />
