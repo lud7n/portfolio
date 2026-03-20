@@ -70,7 +70,7 @@ export default function Theme() {
             Theme
           </span>
           <span className="theme-version text-[10px] tracking-[0.3em] uppercase text-white/20">
-            Ver 4.0 — Space
+            Ver 4.0 Cosmos
           </span>
         </div>
 
