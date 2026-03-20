@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className={`${inter.variable} antialiased`}>
         <SmoothScrollProvider>
           <CustomCursor />
-          <div className="bg-[#001a3d] min-h-screen text-white overflow-hidden">
+          <div className="bg-[#0a0a0a] min-h-screen text-[#f8f8f6] overflow-hidden">
             <Navigation />
             {children}
             <Contact />
