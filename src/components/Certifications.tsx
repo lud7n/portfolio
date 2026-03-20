@@ -3,7 +3,6 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ScrambleText from "@/components/ScrambleText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,19 +43,17 @@ export default function Certifications() {
           scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         }
       );
-      gsap.fromTo(
-        ".cert-heading",
-        { clipPath: "inset(0 0 0 100%)", x: 40, opacity: 0 },
-        {
-          clipPath: "inset(0 0 0 0%)",
-          x: 0,
-          opacity: 1,
-          duration: 1.0,
-          ease: "power3.out",
-          delay: 0.1,
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
-        }
-      );
+      gsap.from(".cert-heading .word-fly", {
+        x: (i: number) => [180, -140][i] ?? 180,
+        y: (i: number) => [-100, 110][i] ?? -100,
+        rotation: (i: number) => [13, -11][i] ?? 13,
+        opacity: 0,
+        duration: 1.1,
+        stagger: 0.12,
+        ease: "power4.out",
+        delay: 0.1,
+        scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+      });
       gsap.fromTo(
         ".cert-category",
         { y: 30, opacity: 0 },
@@ -98,10 +95,10 @@ export default function Certifications() {
         </span>
 
         <h2 className="cert-heading text-5xl md:text-6xl font-black leading-tight mb-20 tracking-tight">
-          <ScrambleText text="Proven" delay={200} />
+          <span className="word-fly inline-block">Proven</span>
           <br />
           <span className="text-black">
-            <ScrambleText text="Knowledge" delay={500} />
+            <span className="word-fly inline-block">Knowledge</span>
           </span>
         </h2>
 
