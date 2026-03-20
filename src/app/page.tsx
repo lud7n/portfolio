@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Certifications from "@/components/Certifications";
+import Theme from "@/components/Theme";
 import MarqueeStrip from "@/components/MarqueeStrip";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -47,6 +48,7 @@ export default function Home() {
 
     addZoomTransition("#about");
     addZoomTransition("#certifications");
+    addZoomTransition("#theme");
 
     return () => ScrollTrigger.getAll().forEach((t) => t.kill());
   }, []);
@@ -58,6 +60,8 @@ export default function Home() {
       <About />
       <MarqueeStrip reverse />
       <Certifications />
+      <MarqueeStrip />
+      <Theme />
     </div>
   );
 }
