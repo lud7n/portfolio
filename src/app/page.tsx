@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Hero from "@/components/Hero";
@@ -8,8 +8,12 @@ import About from "@/components/About";
 import Certifications from "@/components/Certifications";
 import Theme from "@/components/Theme";
 import MarqueeStrip from "@/components/MarqueeStrip";
+import LoadingScreen from "@/components/LoadingScreen";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// "A": カウントアップ / "C": パーティクル収束
+const LOADING_VARIANT: "A" | "C" = "A";
 
 function addZoomTransition(id: string) {
   gsap.fromTo(
@@ -31,6 +35,18 @@ function addZoomTransition(id: string) {
 }
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
+  // スクロールロック
+  useEffect(() => {
+    if (loading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [loading]);
+
   useEffect(() => {
     // Hero → 手前に大きく拡大しながらフェードアウト
     gsap.to("#home", {
@@ -54,6 +70,10 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+      {loading && (
+        <LoadingScreen variant={LOADING_VARIANT} onComplete={() => setLoading(false)} />
+      )}
     <div style={{ perspective: "1400px" }}>
       <Hero />
       <MarqueeStrip />
@@ -63,5 +83,6 @@ export default function Home() {
       <MarqueeStrip />
       <Theme />
     </div>
+    </>
   );
 }
