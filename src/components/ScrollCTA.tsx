@@ -1,54 +1,58 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRouter } from "next/navigation";
+import { FaCode, FaLayerGroup, FaHeart } from "react-icons/fa";
+import type { IconType } from "react-icons";
 
-gsap.registerPlugin(ScrollTrigger);
-
-function runCircleReveal(originEl: HTMLElement, bg: string, onDone: () => void) {
+// ── A: カラー Circle Reveal ──────────────────────────────
+function runColorReveal(originEl: HTMLElement, color: string, onDone: () => void) {
   const rect = originEl.getBoundingClientRect();
-  const ox = rect.left + rect.width / 2;
-  const oy = rect.top + rect.height / 2;
+  const ox   = rect.left + rect.width  / 2;
+  const oy   = rect.top  + rect.height / 2;
   const size = rect.width;
 
   const div = document.createElement("div");
   div.style.cssText = `
-    position: fixed;
-    z-index: 9999;
-    border-radius: 50%;
-    background: ${bg};
-    pointer-events: none;
-    width: ${size}px;
-    height: ${size}px;
-    left: ${ox - size / 2}px;
-    top: ${oy - size / 2}px;
-    transform: scale(1);
-    transform-origin: center center;
+    position: fixed; z-index: 9999; border-radius: 50%;
+    background: ${color}; pointer-events: none;
+    width: ${size}px; height: ${size}px;
+    left: ${ox - size / 2}px; top: ${oy - size / 2}px;
+    transform: scale(1); transform-origin: center center;
   `;
   document.body.appendChild(div);
 
   const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
   gsap.to(div, {
     scale: (maxDist * 2) / size,
-    duration: 0.7,
+    duration: 0.65,
     ease: "power3.inOut",
     onComplete: () => {
-      document.body.removeChild(div);
-      onDone();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          onDone();
+          setTimeout(() => { if (document.body.contains(div)) document.body.removeChild(div); }, 500);
+        });
+      });
     },
   });
 }
 
+// ── Button ───────────────────────────────────────────────
+type RevealMode = { type: "color"; color: string };
+
+type ButtonColor = { ring: string; glow: string; label: string };
+
 function CTAButton({
-  label,
-  href,
-  revealBg,
+  label, href, reveal, Icon, iconClass, color,
 }: {
   label: string;
   href: string;
-  revealBg: string;
+  reveal: RevealMode;
+  Icon: IconType;
+  iconClass: string;
+  color: ButtonColor;
 }) {
   const router = useRouter();
   const btnRef = useRef<HTMLAnchorElement>(null);
@@ -56,21 +60,35 @@ function CTAButton({
   const handleMouseEnter = () => {
     const el = btnRef.current;
     if (!el) return;
-    gsap.to(el.querySelector(".cta-arrow"), { y: 6, duration: 0.4, ease: "power2.out" });
-    gsap.to(el.querySelector(".cta-ring"), { scale: 1.12, duration: 0.4, ease: "power2.out" });
+    const ring    = el.querySelector(".cta-ring")  as HTMLElement;
+    const icon    = el.querySelector(".cta-icon")  as HTMLElement;
+    const labelEl = el.querySelector(".cta-label") as HTMLElement;
+
+    gsap.to(icon, { scale: 1.25, duration: 0.4, ease: "power2.out" });
+    gsap.to(ring, { scale: 1.12, duration: 0.4, ease: "power2.out" });
+    ring.style.borderColor = color.ring;
+    ring.style.boxShadow   = `0 0 18px 4px ${color.glow}, inset 0 0 8px 1px ${color.glow}`;
+    labelEl.style.color    = color.label;
   };
 
   const handleMouseLeave = () => {
     const el = btnRef.current;
     if (!el) return;
-    gsap.to(el.querySelector(".cta-arrow"), { y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" });
-    gsap.to(el.querySelector(".cta-ring"), { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+    const ring    = el.querySelector(".cta-ring")  as HTMLElement;
+    const icon    = el.querySelector(".cta-icon")  as HTMLElement;
+    const labelEl = el.querySelector(".cta-label") as HTMLElement;
+
+    gsap.to(icon, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+    gsap.to(ring, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+    ring.style.borderColor = "rgba(255,255,255,0.2)";
+    ring.style.boxShadow   = "none";
+    labelEl.style.color    = "rgba(255,255,255,0.25)";
   };
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     const ring = btnRef.current?.querySelector(".cta-ring") as HTMLElement;
-    runCircleReveal(ring ?? (btnRef.current as HTMLElement), revealBg, () => router.push(href));
+    runColorReveal(ring ?? (btnRef.current as HTMLElement), reveal.color, () => router.push(href));
   };
 
   return (
@@ -80,54 +98,84 @@ function CTAButton({
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="flex flex-col items-center gap-3 group cursor-pointer"
+      className="flex flex-col items-center gap-3 cursor-pointer"
     >
-      <div className="cta-ring w-12 h-12 rounded-full border border-white/20 flex items-center justify-center
-                      bg-white/[0.03] backdrop-blur-sm group-hover:border-white/40 transition-colors duration-300">
-        <svg className="cta-arrow text-white/50 group-hover:text-white/90 transition-colors duration-300"
-          width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 1v12M1 7l6 6 6-6" stroke="currentColor"
-            strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+      <div
+        className="cta-ring w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm"
+        style={{
+          border: "1px solid rgba(255,255,255,0.2)",
+          background: "rgba(255,255,255,0.03)",
+          transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+        }}
+      >
+        <Icon
+          className={`cta-icon ${iconClass}`}
+          size={14}
+          style={{ color: "rgba(255,255,255,0.5)", transition: "color 0.3s ease" }}
+        />
       </div>
-      <span className="text-[9px] tracking-[0.3em] uppercase text-white/25
-                       group-hover:text-white/60 transition-colors duration-300">
+      <span
+        className="cta-label text-[9px] tracking-[0.3em] uppercase"
+        style={{ color: "rgba(255,255,255,0.25)", transition: "color 0.3s ease" }}
+      >
         {label}
       </span>
     </a>
   );
 }
 
+// ── ScrollCTA ────────────────────────────────────────────
 export default function ScrollCTA() {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el) return;
-
-    gsap.set(el, { opacity: 0, y: 24 });
-
-    ScrollTrigger.create({
-      trigger: "#theme",
-      start: "bottom 80%",
-      onEnter: () => {
-        gsap.to(el, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" });
-      },
-      onLeaveBack: () => {
-        gsap.to(el, { opacity: 0, y: 24, duration: 0.4, ease: "power2.in" });
-      },
-    });
-
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
-  }, []);
-
   return (
-    <div
-      ref={wrapperRef}
-      className="fixed bottom-10 left-1/2 -translate-x-1/2 z-40 flex items-end gap-8"
-    >
-      <CTAButton label="Skills"    href="/skills"   revealBg="#050810" />
-      <CTAButton label="Projects"  href="/projects" revealBg="#06080f" />
-    </div>
+    <>
+      <style>{`
+        @keyframes cursor-blink {
+          0%, 48%  { opacity: 1; }
+          50%, 98% { opacity: 0.15; }
+          100%     { opacity: 1; }
+        }
+        .icon-skills { animation: cursor-blink 1.2s step-end infinite; }
+
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        .icon-projects { animation: spin-slow 8s linear infinite; }
+
+        @keyframes heartbeat {
+          0%, 100% { transform: scale(1); }
+          14%      { transform: scale(1.3); }
+          28%      { transform: scale(1); }
+          42%      { transform: scale(1.18); }
+          56%      { transform: scale(1); }
+        }
+        .icon-hobbies { animation: heartbeat 2s ease-in-out infinite; }
+
+        a:hover .icon-skills,
+        a:hover .icon-projects,
+        a:hover .icon-hobbies { animation-play-state: paused; }
+      `}</style>
+
+      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-40 flex items-end gap-8">
+        <CTAButton
+          label="Skills" href="/skills"
+          reveal={{ type: "color", color: "#3730a3" }}
+          Icon={FaCode} iconClass="icon-skills"
+          color={{ ring: "rgba(99,102,241,0.7)", glow: "rgba(99,102,241,0.35)", label: "rgba(129,140,248,0.9)" }}
+        />
+        <CTAButton
+          label="Projects" href="/projects"
+          reveal={{ type: "color", color: "#065f46" }}
+          Icon={FaLayerGroup} iconClass="icon-projects"
+          color={{ ring: "rgba(16,185,129,0.7)", glow: "rgba(16,185,129,0.3)", label: "rgba(52,211,153,0.9)" }}
+        />
+        <CTAButton
+          label="Hobbies" href="/hobbies"
+          reveal={{ type: "color", color: "#4c0519" }}
+          Icon={FaHeart} iconClass="icon-hobbies"
+          color={{ ring: "rgba(244,63,94,0.7)", glow: "rgba(244,63,94,0.3)", label: "rgba(251,113,133,0.9)" }}
+        />
+      </div>
+    </>
   );
 }
