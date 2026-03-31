@@ -4,6 +4,24 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import {
+  SiFigma,
+  SiTypescript,
+  SiReact,
+  SiSass,
+  SiCplusplus,
+  SiDocker,
+  SiBlender,
+} from "react-icons/si";
+import { FaAws } from "react-icons/fa";
+import type { IconType } from "react-icons";
+
+// Illustratorはシンプルアイコン未収録のためカスタムSVG
+const AiIcon: IconType = (props) => (
+  <svg {...props} viewBox="0 0 24 24" fill="currentColor" width={props.size ?? 16} height={props.size ?? 16}>
+    <text x="2" y="17" fontSize="13" fontWeight="800" fontFamily="sans-serif">Ai</text>
+  </svg>
+);
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,27 +64,201 @@ const whatIDo = [
 
 // 習熟度順: Figma > TypeScript > React > AWS > SCSS > C++ > Illustrator > Docker > Blender
 const techStack = [
-  { name: "Figma",        category: "Design",   level: 5 },
-  { name: "TypeScript",   category: "Frontend", level: 5 },
-  { name: "React",        category: "Frontend", level: 4 },
-  { name: "AWS",          category: "Infra",    level: 4 },
-  { name: "SCSS",         category: "Frontend", level: 3 },
-  { name: "C++",          category: "Backend",  level: 3 },
-  { name: "Illustrator",  category: "Design",   level: 2 },
-  { name: "Docker",       category: "Infra",    level: 2 },
-  { name: "Blender",      category: "3D",       level: 1 },
+  { name: "Figma",        category: "Design",   level: 5, icon: SiFigma },
+  { name: "TypeScript",   category: "Frontend", level: 5, icon: SiTypescript },
+  { name: "React",        category: "Frontend", level: 4, icon: SiReact },
+  { name: "AWS",          category: "Infra",    level: 4, icon: FaAws },
+  { name: "SCSS",         category: "Frontend", level: 3, icon: SiSass },
+  { name: "C++",          category: "Backend",  level: 3, icon: SiCplusplus },
+  { name: "Illustrator",  category: "Design",   level: 2, icon: AiIcon },
+  { name: "Docker",       category: "Infra",    level: 2, icon: SiDocker },
+  { name: "Blender",      category: "3D",       level: 1, icon: SiBlender },
 ];
 
-const learning = [
-  "Three.js",
-  "Rust",
-  "WebGL",
-  "Motion Design",
-];
+const learning: string[] = [];
 
 // ────────────────────────────────────────────
 // Sub-components
 // ────────────────────────────────────────────
+
+// ────────────────────────────────────────────
+// Radar chart data
+// ────────────────────────────────────────────
+
+const RADAR_AXES = [
+  { label: "Frontend",  value: 5 },
+  { label: "Design",    value: 5 },
+  { label: "Infra",     value: 4 },
+  { label: "Algorithm", value: 4 },
+  { label: "Backend",   value: 3 },
+  { label: "3D",        value: 1 },
+];
+
+const RADAR_MAX = 5;
+const RADAR_SIZE = 320;
+const RADAR_CX = RADAR_SIZE / 2;
+const RADAR_CY = RADAR_SIZE / 2;
+const RADAR_R = 110;
+
+function polarToXY(angleRad: number, r: number) {
+  return {
+    x: RADAR_CX + r * Math.cos(angleRad - Math.PI / 2),
+    y: RADAR_CY + r * Math.sin(angleRad - Math.PI / 2),
+  };
+}
+
+function RadarChart({
+  hoveredCategory,
+  onCategoryHover,
+}: {
+  hoveredCategory: string | null;
+  onCategoryHover: (cat: string | null) => void;
+}) {
+  const polygonRef = useRef<SVGPolygonElement>(null);
+  const n = RADAR_AXES.length;
+
+  const axes = RADAR_AXES.map((axis, i) => {
+    const angle = (2 * Math.PI * i) / n;
+    const tip = polarToXY(angle, RADAR_R);
+    const labelPos = polarToXY(angle, RADAR_R + 28);
+    return { ...axis, angle, tip, labelPos };
+  });
+
+  const dataPoints = axes.map(({ value, angle }) =>
+    polarToXY(angle, (value / RADAR_MAX) * RADAR_R)
+  );
+  const polygonPoints = dataPoints.map(p => `${p.x},${p.y}`).join(" ");
+
+  const rings = [1, 2, 3, 4, 5].map(level => {
+    const pts = Array.from({ length: n }, (_, i) => {
+      const angle = (2 * Math.PI * i) / n;
+      return polarToXY(angle, (level / RADAR_MAX) * RADAR_R);
+    });
+    return pts.map(p => `${p.x},${p.y}`).join(" ");
+  });
+
+  useEffect(() => {
+    const el = polygonRef.current;
+    if (!el) return;
+    gsap.fromTo(el,
+      { scale: 0, transformOrigin: `${RADAR_CX}px ${RADAR_CY}px`, opacity: 0 },
+      {
+        scale: 1, opacity: 1, duration: 1.2, ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 85%" },
+      }
+    );
+  }, []);
+
+  const isAnyHovered = hoveredCategory !== null;
+
+  return (
+    <svg
+      viewBox={`0 0 ${RADAR_SIZE} ${RADAR_SIZE}`}
+      width={RADAR_SIZE}
+      height={RADAR_SIZE}
+      className="overflow-visible"
+    >
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        {/* F: ポリゴン用グラデーション */}
+        <linearGradient id="radarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stopColor="#6366f1" stopOpacity="0.5" />
+          <stop offset="50%"  stopColor="#8b5cf6" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.3" />
+        </linearGradient>
+        <linearGradient id="radarStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stopColor="#818cf8" />
+          <stop offset="100%" stopColor="#22d3ee" />
+        </linearGradient>
+      </defs>
+
+      {/* grid rings */}
+      {rings.map((pts, i) => (
+        <polygon key={i} points={pts} fill="none"
+          stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+      ))}
+
+      {/* axis lines */}
+      {axes.map((axis, i) => {
+        const active = hoveredCategory === axis.label;
+        return (
+          <line key={i}
+            x1={RADAR_CX} y1={RADAR_CY}
+            x2={axis.tip.x} y2={axis.tip.y}
+            stroke={active ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.08)"}
+            strokeWidth={active ? "1.5" : "1"}
+            style={{ transition: "stroke 0.25s, stroke-width 0.25s" }}
+          />
+        );
+      })}
+
+      {/* data polygon */}
+      <polygon
+        ref={polygonRef}
+        points={polygonPoints}
+        fill="url(#radarGrad)"
+        stroke="url(#radarStroke)"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+
+      {/* data dots + hover targets */}
+      {dataPoints.map((p, i) => {
+        const axis = axes[i];
+        const active = hoveredCategory === axis.label;
+        const dimmed = isAnyHovered && !active;
+        return (
+          <g key={i}
+            onMouseEnter={() => onCategoryHover(axis.label)}
+            onMouseLeave={() => onCategoryHover(null)}
+            style={{ cursor: "pointer" }}
+          >
+            {/* glow ring */}
+            {active && (
+              <circle cx={p.x} cy={p.y} r="10"
+                fill="rgba(129,140,248,0.15)"
+                filter="url(#glow)"
+              />
+            )}
+            {/* dot */}
+            <circle cx={p.x} cy={p.y}
+              r={active ? 5 : 3}
+              fill={dimmed ? "rgba(255,255,255,0.15)" : active ? "#a5b4fc" : "#c7d2fe"}
+              style={{ transition: "r 0.2s, fill 0.2s" }}
+            />
+            {/* hover hit area */}
+            <circle cx={p.x} cy={p.y} r="16" fill="transparent" />
+          </g>
+        );
+      })}
+
+      {/* labels */}
+      {axes.map((axis, i) => {
+        const active = hoveredCategory === axis.label;
+        const dimmed = isAnyHovered && !active;
+        return (
+          <text key={i}
+            x={axis.labelPos.x} y={axis.labelPos.y}
+            textAnchor="middle" dominantBaseline="middle"
+            fontSize="10" letterSpacing="0.15em"
+            fill={active ? "rgba(255,255,255,0.9)" : dimmed ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.35)"}
+            style={{ textTransform: "uppercase", fontFamily: "inherit", transition: "fill 0.25s", cursor: "pointer" }}
+            onMouseEnter={() => onCategoryHover(axis.label)}
+            onMouseLeave={() => onCategoryHover(null)}
+          >
+            {axis.label}
+          </text>
+        );
+      })}
+    </svg>
+  );
+}
 
 function LevelDots({ level }: { level: number }) {
   return (
@@ -177,6 +369,7 @@ export default function Skills() {
   const stackRef  = useRef<HTMLElement>(null);
   const learnRef  = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   const handleOpen  = useCallback((i: number) => setActiveIndex(i), []);
   const handleClose = useCallback(() => setActiveIndex(null), []);
@@ -251,7 +444,21 @@ export default function Skills() {
   }, []);
 
   return (
-    <main className="bg-[#080808] min-h-screen text-white">
+    <main className="min-h-screen text-white relative" style={{ background: "#050810" }}>
+      {/* H: ノイズテクスチャオーバーレイ */}
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          opacity: 0.035,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundSize: "180px 180px",
+        }}
+      />
+      <div className="relative z-10">
 
       {/* ── Hero ── */}
       <div ref={heroRef} className="max-w-5xl mx-auto px-6 md:px-16" style={{ paddingTop: "10rem", paddingBottom: "8rem" }}>
@@ -290,54 +497,56 @@ export default function Skills() {
           <span className="text-white/15">Technologies</span>
         </h2>
 
-        <div className="stack-grid divide-y divide-white/[0.06]">
-          {techStack.map((item) => (
-            <div
-              key={item.name}
-              className="stack-item flex items-center justify-between py-5 group hover:pl-2 transition-all duration-300"
-            >
-              <div className="flex items-center gap-6">
-                <span className="text-[9px] tracking-[0.25em] uppercase text-white/20 w-16">
-                  {item.category}
-                </span>
-                <span className="text-base md:text-lg font-semibold group-hover:text-white/90 transition-colors duration-300">
-                  {item.name}
-                </span>
-              </div>
-              <LevelDots level={item.level} />
-            </div>
-          ))}
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          {/* レーダーチャート */}
+          <div className="flex justify-center">
+            <RadarChart
+              hoveredCategory={hoveredCategory}
+              onCategoryHover={setHoveredCategory}
+            />
+          </div>
+
+          {/* リスト */}
+          <div className="stack-grid divide-y divide-white/[0.06]">
+            {techStack.map((item) => {
+              const active = hoveredCategory === item.category;
+              const dimmed = hoveredCategory !== null && !active;
+              return (
+                <div
+                  key={item.name}
+                  className="stack-item flex items-center justify-between py-4 cursor-default"
+                  style={{ opacity: dimmed ? 0.15 : 1, transition: "opacity 0.25s" }}
+                  onMouseEnter={() => setHoveredCategory(item.category)}
+                  onMouseLeave={() => setHoveredCategory(null)}
+                >
+                  <div className="flex items-center gap-5">
+                    <span className="text-[9px] tracking-[0.25em] uppercase text-white/20 w-14">
+                      {item.category}
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <item.icon
+                        size={16}
+                        style={{ color: active ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.25)", transition: "color 0.2s" }}
+                      />
+                      <span
+                        className="text-sm md:text-base font-semibold transition-colors duration-200"
+                        style={{ color: active ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.6)" }}
+                      >
+                        {item.name}
+                      </span>
+                    </div>
+                  </div>
+                  <LevelDots level={item.level} />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* ── Currently Learning ── */}
-      <section ref={learnRef} className="max-w-5xl mx-auto px-6 md:px-16" style={{ paddingBottom: "10rem" }}>
-        <div className="flex flex-wrap gap-3">
-          {learning.map((item) => (
-            <span
-              key={item}
-              className="learn-item text-sm tracking-wide text-white/40 border border-white/10 px-4 py-2 rounded-full hover:text-white/70 hover:border-white/30 transition-colors duration-200"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </section>
 
-      {/* ── CTA ── */}
-      <div className="max-w-5xl mx-auto px-6 md:px-16 pb-24 flex items-center justify-between border-t border-white/[0.06] pt-12">
-        <p className="text-white/20 text-[10px] tracking-[0.25em] uppercase">© 2026 lud7n</p>
-        <Link
-          href="/"
-          className="text-[10px] tracking-[0.3em] uppercase text-white/25 hover:text-white/60 transition-colors duration-200 flex items-center gap-2"
-        >
-          Back to Top
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M4 11L9 6 4 1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
+
       </div>
-
     </main>
   );
 }
