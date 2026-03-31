@@ -9,6 +9,7 @@ import Certifications from "@/components/Certifications";
 import Theme from "@/components/Theme";
 import MarqueeStrip from "@/components/MarqueeStrip";
 import LoadingScreen from "@/components/LoadingScreen";
+import ScrollCTA from "@/components/ScrollCTA";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -83,6 +84,7 @@ export default function Home() {
       <MarqueeStrip />
       <Theme />
     </div>
+    <ScrollCTA />
     </>
   );
 }
