@@ -118,6 +118,31 @@ export default function Hero() {
       {/* パーティクル */}
       <ParticleField />
 
+      {/* Ambient Glow — 左上 indigo */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "-10%",
+          left: "-20%",
+          width: "70vw",
+          height: "70vw",
+          background: "radial-gradient(circle, rgba(99,102,241,0.13) 0%, transparent 65%)",
+          filter: "blur(40px)",
+        }}
+      />
+      {/* Ambient Glow — 右下 violet */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          bottom: "-20%",
+          right: "-10%",
+          width: "55vw",
+          height: "55vw",
+          background: "radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 65%)",
+          filter: "blur(40px)",
+        }}
+      />
+
       {/* 背景の大きなKS文字 */}
       <div
         className="hero-bg-text absolute right-0 bottom-0 font-black leading-none select-none pointer-events-none text-white/[0.04]"
@@ -143,14 +168,16 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* Line 2 — アウトラインテキスト */}
+        {/* Line 2 — グラデーションテキスト */}
         <div className="hero-line-2">
           <h1
             className="font-black tracking-[-0.03em] leading-[0.88]"
             style={{
               fontSize: "clamp(52px, 9.5vw, 130px)",
-              WebkitTextStroke: "1.5px #f8f8f6",
-              color: "transparent",
+              background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 35%, #6366f1 65%, #8b5cf6 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
             }}
           >
             objectives.

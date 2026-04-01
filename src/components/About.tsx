@@ -6,53 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const stats = [
-  { target: 4, suffix: "年+", label: "Design Experience" },
-  { target: 10, suffix: "+", label: "Certifications" },
-  { target: null, display: "緑上位", label: "AtCoder Rate" },
-  { target: null, display: "∞", label: "Curiosity" },
-];
-
-function CountUpNumber({
-  target,
-  suffix,
-}: {
-  target: number;
-  suffix: string;
-}) {
-  const spanRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const span = spanRef.current;
-    if (!span) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        observer.disconnect();
-        const obj = { val: 0 };
-        gsap.to(obj, {
-          val: target,
-          duration: 1.6,
-          ease: "power2.out",
-          onUpdate: () => {
-            span.textContent = Math.round(obj.val) + suffix;
-          },
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    observer.observe(span);
-    return () => observer.disconnect();
-  }, [target, suffix]);
-
-  return (
-    <span ref={spanRef}>
-      0{suffix}
-    </span>
-  );
-}
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -94,18 +47,6 @@ export default function About() {
           scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         }
       );
-      gsap.fromTo(
-        ".stat-card",
-        { y: 30, opacity: 0, scale: 0.95 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.5,
-          stagger: 0.1,
-          scrollTrigger: { trigger: ".stats-grid", start: "top 82%" },
-        }
-      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -123,12 +64,12 @@ export default function About() {
           About Me
         </span>
 
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+        <div className="max-w-2xl">
           <div>
             <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight" style={{ perspective: "600px" }}>
               Design meets
               <br />
-              <span className="text-black">Engineering</span>
+              <span className="text-indigo-400">Engineering</span>
             </h2>
             <div className="about-body space-y-4">
               <p className="text-white/50 text-base md:text-lg leading-relaxed">
@@ -147,25 +88,6 @@ export default function About() {
             </div>
           </div>
 
-          <div className="stats-grid space-y-6">
-            {stats.map((s) => (
-              <div key={s.label} className="stat-card group">
-                <div className="h-px bg-white/10 mb-5 group-hover:bg-white/25 transition-colors duration-500" />
-                <div className="flex items-baseline justify-between">
-                  <div className="text-4xl font-black bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
-                    {s.target !== null ? (
-                      <CountUpNumber target={s.target} suffix={s.suffix!} />
-                    ) : (
-                      s.display
-                    )}
-                  </div>
-                  <div className="text-[10px] text-white/30 tracking-[0.25em] uppercase">
-                    {s.label}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

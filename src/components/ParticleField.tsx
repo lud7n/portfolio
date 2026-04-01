@@ -12,6 +12,7 @@ interface Particle {
   wobbleOffset: number;
   wobbleSpeed: number;
   wobbleAmp: number;
+  color: string;
 }
 
 export default function ParticleField() {
@@ -59,8 +60,18 @@ export default function ParticleField() {
       canvas.height = window.innerHeight;
     };
 
+    // A: カラーパレット（白多め、たまにカラー）
+    const palette = [
+      "248,248,246", // white（多め）
+      "248,248,246",
+      "248,248,246",
+      "165,180,252", // indigo-300
+      "196,181,253", // violet-300
+      "103,232,249", // cyan-300
+    ];
+
     const createParticles = () => {
-      const count = Math.floor((window.innerWidth * window.innerHeight) / 400);
+      const count = Math.floor((window.innerWidth * window.innerHeight) / 900);
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
@@ -71,6 +82,7 @@ export default function ParticleField() {
         wobbleOffset: Math.random() * Math.PI * 2,
         wobbleSpeed:  Math.random() * 0.008 + 0.003,
         wobbleAmp:    Math.random() * 0.6 + 0.2,
+        color:        palette[Math.floor(Math.random() * palette.length)],
       }));
     };
 
@@ -106,7 +118,7 @@ export default function ParticleField() {
           const dy   = mouseY - p.y;
           const dist = Math.sqrt(dx * dx + dy * dy) || 1;
           // 近いほど弱く（行き過ぎ防止）、遠いほど強く引く
-          const force = Math.min(dist * 0.08, 2.5) * gatherStrength;
+          const force = Math.min(dist * 0.03, 1.0) * gatherStrength;
           p.x += (dx / dist) * force;
           p.y += (dy / dist) * force;
         }
@@ -116,9 +128,19 @@ export default function ParticleField() {
         if (p.y < -2) p.y = canvas.height + 2;
         if (p.y > canvas.height + 2) p.y = -2;
 
+        // D: カーソル距離に応じてサイズ・不透明度変化（shadowBlur不使用）
+        const cdx = mouseX - p.x;
+        const cdy = mouseY - p.y;
+        const cdist = cdx * cdx + cdy * cdy; // sqrt省略
+        const glowStrength = hasMoved && cdist < 14400 ? Math.max(0, 1 - Math.sqrt(cdist) / 120) : 0;
+
+        const drawSize = p.size + glowStrength * 1.5;
+        const drawOpacity = p.opacity + glowStrength * 0.55;
+        const color = glowStrength > 0.05 ? "129,140,248" : p.color;
+
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(248, 248, 246, ${p.opacity})`;
+        ctx.arc(p.x, p.y, drawSize, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color},${drawOpacity})`;
         ctx.fill();
       }
 

@@ -10,6 +10,7 @@ import Theme from "@/components/Theme";
 import MarqueeStrip from "@/components/MarqueeStrip";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollCTA from "@/components/ScrollCTA";
+import AuroraBackground from "@/components/AuroraBackground";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,6 +73,7 @@ export default function Home() {
 
   return (
     <>
+      <AuroraBackground />
       {loading && (
         <LoadingScreen variant={LOADING_VARIANT} onComplete={() => setLoading(false)} />
       )}
