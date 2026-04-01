@@ -92,7 +92,7 @@ export default function Theme() {
         <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16" style={{ perspective: "600px" }}>
           Ver 4.0 Cosmos
           <br />
-          <span className="text-black">Philosophy</span>
+          <span className="text-indigo-400">Philosophy</span>
         </h2>
 
         {/* 本文 */}

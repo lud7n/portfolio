@@ -101,7 +101,7 @@ export default function Certifications() {
         <h2 className="cert-heading text-5xl md:text-6xl font-black leading-tight mb-20 tracking-tight" style={{ perspective: "600px" }}>
           Proven
           <br />
-          <span className="text-black">Knowledge</span>
+          <span className="text-indigo-400">Knowledge</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-16">
