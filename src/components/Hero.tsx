@@ -93,6 +93,27 @@ export default function Hero() {
         transformOrigin: "left center",
       });
 
+      // B: スクロールで文字が飛び散る
+      const chars = gsap.utils.toArray<HTMLElement>(".hero-char");
+      chars.forEach((char) => {
+        const tx = (Math.random() - 0.5) * window.innerWidth * 1.4;
+        const ty = (Math.random() - 0.5) * window.innerHeight * 1.2;
+        const rot = (Math.random() - 0.5) * 720;
+        gsap.to(char, {
+          x: tx,
+          y: ty,
+          rotation: rot,
+          opacity: 0,
+          ease: "power2.in",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "60% top",
+            scrub: 1,
+          },
+        });
+      });
+
       // 背景の大きな文字もゆっくり動く
       gsap.to(".hero-bg-text", {
         yPercent: 15,
@@ -164,7 +185,11 @@ export default function Hero() {
             className="font-black tracking-[-0.03em] leading-[0.88] text-white"
             style={{ fontSize: "clamp(52px, 9.5vw, 130px)" }}
           >
-            Optimize my
+            {"Optimize my".split("").map((char, i) => (
+              <span key={i} className="hero-char inline-block" style={{ whiteSpace: char === " " ? "pre" : "normal" }}>
+                {char}
+              </span>
+            ))}
           </h1>
         </div>
 
@@ -172,15 +197,22 @@ export default function Hero() {
         <div className="hero-line-2">
           <h1
             className="font-black tracking-[-0.03em] leading-[0.88]"
-            style={{
-              fontSize: "clamp(52px, 9.5vw, 130px)",
-              background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 35%, #6366f1 65%, #8b5cf6 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
+            style={{ fontSize: "clamp(52px, 9.5vw, 130px)" }}
           >
-            objectives.
+            {"objectives.".split("").map((char, i) => (
+              <span
+                key={i}
+                className="hero-char inline-block"
+                style={{
+                  background: "linear-gradient(135deg, #a5b4fc 0%, #818cf8 35%, #6366f1 65%, #8b5cf6 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {char}
+              </span>
+            ))}
           </h1>
         </div>
 

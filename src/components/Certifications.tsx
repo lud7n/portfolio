@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scatterChars } from "@/lib/scatterChars";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,6 +33,8 @@ export default function Certifications() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (sectionRef.current) scatterChars(sectionRef.current, "cert-char");
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".cert-tag",
@@ -99,9 +102,13 @@ export default function Certifications() {
         </span>
 
         <h2 className="cert-heading text-5xl md:text-6xl font-black leading-tight mb-20 tracking-tight" style={{ perspective: "600px" }}>
-          Proven
+          {"Proven".split("").map((c, i) => (
+            <span key={i} className="cert-char inline-block">{c}</span>
+          ))}
           <br />
-          <span className="text-indigo-400">Knowledge</span>
+          {"Knowledge".split("").map((c, i) => (
+            <span key={i} className="cert-char inline-block text-indigo-400">{c}</span>
+          ))}
         </h2>
 
         <div className="grid md:grid-cols-2 gap-16">
