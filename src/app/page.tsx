@@ -11,6 +11,7 @@ import MarqueeStrip from "@/components/MarqueeStrip";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollCTA from "@/components/ScrollCTA";
 import AuroraBackground from "@/components/AuroraBackground";
+import WarpBackground from "@/components/WarpBackground";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,6 +75,7 @@ export default function Home() {
   return (
     <>
       <AuroraBackground />
+      <WarpBackground />
       {loading && (
         <LoadingScreen variant={LOADING_VARIANT} onComplete={() => setLoading(false)} />
       )}

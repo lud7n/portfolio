@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scatterChars } from "@/lib/scatterChars";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,6 +24,8 @@ export default function Theme() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (sectionRef.current) scatterChars(sectionRef.current, "theme-char");
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".theme-tag",
@@ -90,9 +93,13 @@ export default function Theme() {
 
         {/* 見出し */}
         <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16" style={{ perspective: "600px" }}>
-          Ver 4.0 Cosmos
+          {"Ver 4.0 Cosmos".split("").map((c, i) => (
+            <span key={i} className="theme-char inline-block" style={{ whiteSpace: c === " " ? "pre" : "normal" }}>{c}</span>
+          ))}
           <br />
-          <span className="text-indigo-400">Philosophy</span>
+          {"Philosophy".split("").map((c, i) => (
+            <span key={i} className="theme-char inline-block text-indigo-400">{c}</span>
+          ))}
         </h2>
 
         {/* 本文 */}

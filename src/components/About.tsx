@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scatterChars } from "@/lib/scatterChars";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +12,8 @@ export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (sectionRef.current) scatterChars(sectionRef.current, "about-char");
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".about-tag",
@@ -67,9 +70,13 @@ export default function About() {
         <div className="max-w-2xl">
           <div>
             <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight" style={{ perspective: "600px" }}>
-              Design meets
+              {"Design meets".split("").map((c, i) => (
+                <span key={i} className="about-char inline-block" style={{ whiteSpace: c === " " ? "pre" : "normal" }}>{c}</span>
+              ))}
               <br />
-              <span className="text-indigo-400">Engineering</span>
+              {"Engineering".split("").map((c, i) => (
+                <span key={i} className="about-char inline-block text-indigo-400">{c}</span>
+              ))}
             </h2>
             <div className="about-body space-y-4">
               <p className="text-white/50 text-base md:text-lg leading-relaxed">
