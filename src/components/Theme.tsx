@@ -91,6 +91,23 @@ export default function Theme() {
           </span>
         </div>
 
+        {/* Ver 3.0 リンク */}
+        <a
+          href="http://lud7n.neet.s3-website-us-east-1.amazonaws.com/#/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-4 mb-12 hover:opacity-100 transition-opacity duration-300"
+          style={{ opacity: 0.85 }}
+        >
+          <div className="h-px w-12 bg-white/50 group-hover:w-20 transition-all duration-300" />
+          <span className="text-sm tracking-[0.25em] uppercase text-white/80">
+            Ver 3.0
+          </span>
+          <span className="text-sm text-white/50 group-hover:text-white group-hover:translate-x-1.5 transition-all duration-300">
+            ↗
+          </span>
+        </a>
+
         {/* 見出し */}
         <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16" style={{ perspective: "600px" }}>
           {"Ver 4.0 Cosmos".split("").map((c, i) => (
