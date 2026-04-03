@@ -17,8 +17,8 @@ export function scatterChars(triggerEl: Element, charClass: string) {
       ease: "power2.in",
       scrollTrigger: {
         trigger: triggerEl,
-        start: "top 20%",
-        end: "bottom 20%",
+        start: "top -10%",
+        end: "bottom 10%",
         scrub: 1,
       },
     });
