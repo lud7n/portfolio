@@ -98,7 +98,7 @@ function CTAButton({
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="flex flex-col items-center gap-3 cursor-pointer"
+      className="flex flex-col items-center gap-3 cursor-pointer w-14"
     >
       <div
         className="cta-ring w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm"
