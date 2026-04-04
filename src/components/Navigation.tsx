@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/#about", label: "About", sectionId: "about" },
   { href: "/skills", label: "Skills", sectionId: null },
   { href: "/projects", label: "Projects", sectionId: null },
+  { href: "/articles", label: "Articles", sectionId: null },
   { href: "/hobbies", label: "Hobbies", sectionId: null },
   { href: "/#contact", label: "Contact", sectionId: "contact" },
 ];
@@ -18,6 +19,7 @@ const linkAccents: Record<string, string> = {
   About:    "rgba(251,191,36,0.08)",
   Skills:   "rgba(34,211,238,0.08)",
   Projects: "rgba(167,139,250,0.08)",
+  Articles: "rgba(99,102,241,0.08)",
   Hobbies:  "rgba(52,211,153,0.08)",
   Contact:  "rgba(251,113,133,0.08)",
 };
