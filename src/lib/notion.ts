@@ -9,6 +9,7 @@ export type Article = {
   title: string;
   date: string;
   tags: string[];
+  cover: string | null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,11 +19,18 @@ function toArticle(page: any): Article {
     (p: any) => p.type === "title"
   ) as any;
 
+  const cover = page.cover?.type === "external"
+    ? page.cover.external.url
+    : page.cover?.type === "file"
+    ? page.cover.file.url
+    : null;
+
   return {
     id: page.id,
     title: titleProp?.title?.[0]?.plain_text ?? "Untitled",
     date: page.properties.Date?.date?.start ?? "",
     tags: page.properties.Tags?.multi_select?.map((t: { name: string }) => t.name) ?? [],
+    cover,
   };
 }
 
