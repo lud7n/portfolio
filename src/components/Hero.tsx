@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ParticleField from "@/components/ParticleField";
+import HolographicGrid from "@/components/HolographicGrid";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -138,6 +139,9 @@ export default function Hero() {
     >
       {/* パーティクル */}
       <ParticleField />
+
+      {/* ホログラフィックグリッド */}
+      <HolographicGrid />
 
       {/* Ambient Glow — 左上 indigo */}
       <div
