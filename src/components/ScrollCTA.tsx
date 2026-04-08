@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { useRouter } from "next/navigation";
-import { FaCode, FaLayerGroup, FaHeart } from "react-icons/fa";
+import { FaCode, FaLayerGroup, FaHeart, FaFeather } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
 // ── A: カラー Circle Reveal ──────────────────────────────
@@ -151,9 +151,16 @@ export default function ScrollCTA() {
         }
         .icon-hobbies { animation: heartbeat 2s ease-in-out infinite; }
 
+        @keyframes float-pen {
+          0%, 100% { transform: translateY(0) rotate(-15deg); }
+          50%      { transform: translateY(-4px) rotate(-15deg); }
+        }
+        .icon-articles { animation: float-pen 2.4s ease-in-out infinite; }
+
         a:hover .icon-skills,
         a:hover .icon-projects,
-        a:hover .icon-hobbies { animation-play-state: paused; }
+        a:hover .icon-hobbies,
+        a:hover .icon-articles { animation-play-state: paused; }
       `}</style>
 
       <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-40 flex items-end gap-8">
@@ -174,6 +181,12 @@ export default function ScrollCTA() {
           reveal={{ type: "color", color: "#4c0519" }}
           Icon={FaHeart} iconClass="icon-hobbies"
           color={{ ring: "rgba(244,63,94,0.7)", glow: "rgba(244,63,94,0.3)", label: "rgba(251,113,133,0.9)" }}
+        />
+        <CTAButton
+          label="Articles" href="/articles"
+          reveal={{ type: "color", color: "#2e1065" }}
+          Icon={FaFeather} iconClass="icon-articles"
+          color={{ ring: "rgba(139,92,246,0.7)", glow: "rgba(139,92,246,0.3)", label: "rgba(167,139,250,0.9)" }}
         />
       </div>
     </>
