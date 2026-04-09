@@ -25,6 +25,9 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run build
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
