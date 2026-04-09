@@ -155,6 +155,22 @@ export default function Navigation() {
           <span className="block h-px bg-white origin-center transition-all duration-300 w-full"
             style={{ transform: menuOpen ? "translateY(-9px) rotate(-45deg)" : "none" }} />
         </button>
+
+        {/* ホームボタン（ホーム以外のページで表示） */}
+        {pathname !== "/" && !menuOpen && (
+          <Link
+            href="/"
+            className="flex items-center gap-2 group"
+            style={{ color: "rgba(255,255,255,0.3)", transition: "color 0.3s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.8)")}
+            onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
+          >
+            <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+              <path d="M1 6.5L7 1L13 6.5V13H9.5V9.5H4.5V13H1V6.5Z"
+                stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        )}
       </nav>
 
       {/* フルスクリーンメニュー */}
