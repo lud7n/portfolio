@@ -4,14 +4,14 @@ import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { lenisInstance } from "@/components/SmoothScrollProvider";
 
 const navLinks = [
-  { href: "/#about", label: "About", sectionId: "about" },
+  { href: "/", label: "About", sectionId: "about" },
   { href: "/skills", label: "Skills", sectionId: null },
   { href: "/projects", label: "Projects", sectionId: null },
   { href: "/articles", label: "Articles", sectionId: null },
   { href: "/hobbies", label: "Hobbies", sectionId: null },
-  { href: "/#contact", label: "Contact", sectionId: "contact" },
 ];
 
 // B: リンクごとのアクセントカラー
@@ -42,6 +42,8 @@ export default function Navigation() {
   const spotlightRef  = useRef<HTMLDivElement>(null);
   const bgGradientRef = useRef<HTMLDivElement>(null);
   const linkRefs      = useRef<(HTMLDivElement | null)[]>([]);
+  const hamburgerRef  = useRef<HTMLButtonElement>(null);
+  const originRef     = useRef({ x: 30, y: 30 });
 
   const pathname = usePathname();
 
@@ -72,34 +74,43 @@ export default function Navigation() {
     const menu = menuRef.current;
     if (!menu) return;
 
+    const { x: ox, y: oy } = originRef.current;
+    const origin = `${ox}px ${oy}px`;
+
     if (menuOpen) {
-      gsap.set(menu, { display: "flex" });
-      // スポットライト初期位置をセンターに
+      gsap.set(menu, { display: "flex", clipPath: `circle(0% at ${origin})` });
       gsap.set(spotlightRef.current, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
 
-      gsap.fromTo(menu, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" });
+      // 円を広げる
+      gsap.to(menu, {
+        clipPath: `circle(150% at ${origin})`,
+        duration: 0.7,
+        ease: "power3.inOut",
+      });
 
-      // E: 偶数リンクは左から、奇数は右から
+      // リンクをスタガーで出す
       linkRefs.current.forEach((el, i) => {
         if (!el) return;
         gsap.fromTo(
           el,
-          { x: i % 2 === 0 ? -110 : 110, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.75, ease: "power4.out", delay: 0.08 + i * 0.07 }
+          { x: i % 2 === 0 ? -80 : 80, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.65, ease: "power4.out", delay: 0.3 + i * 0.07 }
         );
       });
 
-      gsap.fromTo(".menu-meta", { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.55 });
+      gsap.fromTo(".menu-meta", { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.65 });
 
       document.body.style.overflow = "hidden";
 
     } else {
       setHoveredLink(null);
-      gsap.to(bgGradientRef.current, { opacity: 0, duration: 0.2 });
+      gsap.to(bgGradientRef.current, { opacity: 0, duration: 0.15 });
+
+      // 円を縮める
       gsap.to(menu, {
-        opacity: 0,
-        duration: 0.25,
-        ease: "power2.in",
+        clipPath: `circle(0% at ${origin})`,
+        duration: 0.55,
+        ease: "power3.inOut",
         onComplete: () => { gsap.set(menu, { display: "none" }); },
       });
       document.body.style.overflow = "";
@@ -139,21 +150,63 @@ export default function Navigation() {
     <>
       {/* ナビバー */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-12 py-5 transition-all duration-500 ${
-          scrolled ? "backdrop-blur-xl bg-[#0a0a0a]/90 border-b border-white/[0.06]" : ""
+        style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)", paddingTop: "1.25rem", paddingBottom: "1.25rem" }}
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between transition-all duration-500 ${
+          scrolled ? "backdrop-blur-sm" : ""
         }`}
       >
         <button
-          className="nav-hamburger opacity-0 flex flex-col justify-center gap-[5px] w-8 h-8"
-          onClick={() => setMenuOpen((v) => !v)}
+          ref={hamburgerRef}
+          className="nav-hamburger opacity-0"
+          onClick={() => {
+            const rect = hamburgerRef.current?.getBoundingClientRect();
+            if (rect) originRef.current = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+            setMenuOpen((v) => !v);
+          }}
           aria-label="Toggle menu"
+          style={{
+            position: "relative",
+            width: 28,
+            height: 20,
+            background: "none",
+            border: "none",
+            padding: 0,
+            color: "rgba(255,255,255,0.6)",
+            transition: "color 0.3s ease",
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.9)")}
+          onMouseLeave={e => (e.currentTarget.style.color = menuOpen ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.6)")}
         >
-          <span className="block h-px bg-white origin-center transition-all duration-300 w-full"
-            style={{ transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none" }} />
-          <span className="block h-px bg-white transition-all duration-300"
-            style={{ opacity: menuOpen ? 0 : 1, width: "66%" }} />
-          <span className="block h-px bg-white origin-center transition-all duration-300 w-full"
-            style={{ transform: menuOpen ? "translateY(-9px) rotate(-45deg)" : "none" }} />
+          {/* line 1 */}
+          <span style={{
+            position: "absolute",
+            width: 18,
+            height: 1.5,
+            borderRadius: 2,
+            background: "currentColor",
+            top: "50%",
+            left: "50%",
+            transformOrigin: "center",
+            transform: menuOpen
+              ? "translate(-50%, -50%) rotate(45deg)"
+              : "translate(calc(-50% - 5px), -50%) rotate(-58deg)",
+            transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          }} />
+          {/* line 2 */}
+          <span style={{
+            position: "absolute",
+            width: 18,
+            height: 1.5,
+            borderRadius: 2,
+            background: "currentColor",
+            top: "50%",
+            left: "50%",
+            transformOrigin: "center",
+            transform: menuOpen
+              ? "translate(-50%, -50%) rotate(-45deg)"
+              : "translate(calc(-50% + 5px), -50%) rotate(-58deg)",
+            transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          }} />
         </button>
 
         {/* ホームボタン（ホーム以外のページで表示） */}
@@ -199,19 +252,20 @@ export default function Navigation() {
         />
 
         {/* ナビリンク */}
-        <nav className="relative z-10 space-y-0 px-10 md:px-20">
+        <nav className="relative z-10" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
           {navLinks.map((link, i) => (
             <div
               key={link.href}
               ref={(el) => { linkRefs.current[i] = el; }}
               onMouseEnter={() => handleLinkEnter(link.label)}
               onMouseLeave={handleLinkLeave}
+              style={{ paddingTop: "0.6rem", paddingBottom: "0.6rem" }}
             >
               <Link
                 href={link.href}
-                className="group flex items-baseline gap-5 py-2"
-                style={{ fontSize: "clamp(38px, 7vw, 90px)" }}
-                onClick={() => setMenuOpen(false)}
+                className="group flex items-baseline gap-5"
+                style={{ fontSize: "clamp(28px, 4vw, 52px)" }}
+                onClick={() => { setMenuOpen(false); lenisInstance?.scrollTo(0, { immediate: true }); }}
               >
                 {/* D: ホバーで他リンクが暗くなる */}
                 <span
