@@ -9,7 +9,6 @@ import Certifications from "@/components/Certifications";
 import Theme from "@/components/Theme";
 import MarqueeStrip from "@/components/MarqueeStrip";
 import LoadingScreen from "@/components/LoadingScreen";
-import ScrollCTA from "@/components/ScrollCTA";
 import AuroraBackground from "@/components/AuroraBackground";
 import WarpBackground from "@/components/WarpBackground";
 
@@ -88,7 +87,6 @@ export default function Home() {
       <MarqueeStrip />
       <Theme />
     </div>
-    <ScrollCTA />
-    </>
+</>
   );
 }

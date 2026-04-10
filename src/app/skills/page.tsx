@@ -466,7 +466,7 @@ export default function Skills() {
       <div className="relative z-10">
 
       {/* ── Hero ── */}
-      <div ref={heroRef} className="max-w-5xl mx-auto px-8 md:px-20" style={{ paddingTop: "10rem", paddingBottom: "8rem" }}>
+      <div ref={heroRef} className="max-w-5xl mx-auto" style={{ paddingTop: "10rem", paddingBottom: "8rem", paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
         <h1 className="skills-heading text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
           What I
           <br />
@@ -479,7 +479,7 @@ export default function Skills() {
       </div>
 
       {/* ── What I Do ── */}
-      <section ref={whatRef} className="max-w-5xl mx-auto px-8 md:px-20" style={{ paddingBottom: "10rem" }}>
+      <section ref={whatRef} className="max-w-5xl mx-auto" style={{ paddingBottom: "10rem", paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
         <div className="border-t border-white/[0.08]">
           {whatIDo.map((item, i) => (
             <WhatIDoItem
@@ -495,7 +495,7 @@ export default function Skills() {
       </section>
 
       {/* ── Tech Stack ── */}
-      <section ref={stackRef} className="max-w-5xl mx-auto px-8 md:px-20" style={{ paddingBottom: "10rem" }}>
+      <section ref={stackRef} className="max-w-5xl mx-auto" style={{ paddingBottom: "10rem", paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
         <h2 className="stack-heading text-4xl md:text-6xl font-black leading-tight tracking-tight mb-16">
           Tools &amp;
           <br />

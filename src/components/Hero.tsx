@@ -135,7 +135,8 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="home"
-      className="relative h-screen w-full overflow-hidden flex flex-col justify-center px-8 md:px-20"
+      className="relative h-screen w-full overflow-hidden flex flex-col justify-center"
+      style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}
     >
       {/* パーティクル */}
       <ParticleField />

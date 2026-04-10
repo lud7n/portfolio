@@ -80,7 +80,7 @@ export default function Theme() {
       className="w-full"
       style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
     >
-      <div className="max-w-5xl mx-auto px-8 md:px-20">
+      <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
         {/* ヘッダー行 */}
         <div className="flex items-baseline justify-between mb-20">
           <span className="theme-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full">
