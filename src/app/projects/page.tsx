@@ -342,7 +342,7 @@ export default function Projects() {
       />
 
       <div className="relative z-10">
-        <div ref={heroRef} className="max-w-5xl mx-auto px-6 md:px-16"
+        <div ref={heroRef} className="max-w-5xl mx-auto px-8 md:px-20"
           style={{ paddingTop: "10rem", paddingBottom: "6rem" }}>
           <h1 className="proj-heading text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
             Projects
@@ -354,7 +354,7 @@ export default function Projects() {
           </p>
         </div>
 
-        <section ref={listRef} className="max-w-5xl mx-auto px-6 md:px-16"
+        <section ref={listRef} className="max-w-5xl mx-auto px-8 md:px-20"
           style={{ paddingBottom: "12rem" }}>
           <div className="border-t border-white/[0.08]">
             {projects.map((project, i) => (

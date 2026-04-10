@@ -82,7 +82,7 @@ export default function Projects() {
     <section
       ref={sectionRef}
       id="projects"
-      className="py-36 px-6 md:px-16 max-w-7xl mx-auto"
+      className="py-36 px-8 md:px-20 max-w-7xl mx-auto"
     >
       <span className="inline-block text-[10px] tracking-[0.35em] uppercase text-cyan-400 border border-cyan-400/30 px-3 py-1.5 rounded-full mb-8">
         Projects

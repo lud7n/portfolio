@@ -9,7 +9,7 @@ export default async function ArticlesPage() {
 
   return (
     <main className="min-h-screen w-full" style={{ paddingTop: "10rem", paddingBottom: "18rem" }}>
-      <div style={{ maxWidth: "64rem", margin: "0 auto", paddingLeft: "5rem", paddingRight: "5rem" }}>
+      <div className="max-w-5xl mx-auto px-8 md:px-20">
 
         <ArticlesHeader count={articles.length} />
 
