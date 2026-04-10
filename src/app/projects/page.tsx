@@ -342,8 +342,8 @@ export default function Projects() {
       />
 
       <div className="relative z-10">
-        <div ref={heroRef} className="max-w-5xl mx-auto px-6 md:px-16"
-          style={{ paddingTop: "10rem", paddingBottom: "6rem" }}>
+        <div ref={heroRef} className="max-w-5xl mx-auto"
+          style={{ paddingTop: "10rem", paddingBottom: "6rem", paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
           <h1 className="proj-heading text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
             Projects
             <br />
@@ -354,8 +354,8 @@ export default function Projects() {
           </p>
         </div>
 
-        <section ref={listRef} className="max-w-5xl mx-auto px-6 md:px-16"
-          style={{ paddingBottom: "12rem" }}>
+        <section ref={listRef} className="max-w-5xl mx-auto"
+          style={{ paddingBottom: "12rem", paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
           <div className="border-t border-white/[0.08]">
             {projects.map((project, i) => (
               <ProjectRow

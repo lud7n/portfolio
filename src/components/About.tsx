@@ -62,7 +62,7 @@ export default function About() {
       className="w-full"
       style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
     >
-      <div className="max-w-5xl mx-auto px-6 md:px-16">
+      <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
         <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
           About Me
         </span>

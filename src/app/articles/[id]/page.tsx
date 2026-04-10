@@ -23,7 +23,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
   return (
     <main className="min-h-screen w-full" style={{ paddingTop: "10rem", paddingBottom: "8rem" }}>
-      <div className="max-w-3xl mx-auto px-6 md:px-16">
+      <div className="max-w-3xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
 
         {/* Back */}
         <Link

@@ -5,6 +5,7 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/CustomCursor";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import ScrollCTA from "@/components/ScrollCTA";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
             <Navigation />
             {children}
             <Footer />
+            <ScrollCTA />
           </div>
         </SmoothScrollProvider>
       </body>
