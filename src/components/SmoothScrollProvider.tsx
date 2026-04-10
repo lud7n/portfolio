@@ -3,6 +3,9 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
+// グローバルにLenisインスタンスを保持
+export let lenisInstance: Lenis | null = null;
+
 export default function SmoothScrollProvider({
   children,
 }: {
@@ -16,6 +19,8 @@ export default function SmoothScrollProvider({
       touchMultiplier: 0.5,
     });
 
+    lenisInstance = lenis;
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -25,6 +30,7 @@ export default function SmoothScrollProvider({
 
     return () => {
       lenis.destroy();
+      lenisInstance = null;
     };
   }, []);
 
