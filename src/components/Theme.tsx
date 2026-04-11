@@ -68,6 +68,42 @@ export default function Theme() {
           scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
         }
       );
+
+      // タイムライン: ラベル → 縦線描画 → ドット+アイテム スタガー
+      gsap.fromTo(
+        ".theme-archive-label",
+        { opacity: 0, y: 10 },
+        {
+          opacity: 1, y: 0, duration: 0.5,
+          scrollTrigger: { trigger: sectionRef.current, start: "top 78%" },
+        }
+      );
+      gsap.fromTo(
+        ".theme-timeline-line",
+        { scaleY: 0 },
+        {
+          scaleY: 1, duration: 0.7, ease: "power2.inOut", delay: 0.2,
+          scrollTrigger: { trigger: sectionRef.current, start: "top 78%" },
+        }
+      );
+      gsap.fromTo(
+        ".theme-timeline-dot",
+        { scale: 0, opacity: 0 },
+        {
+          scale: 1, opacity: 1, duration: 0.3, stagger: 0.15, delay: 0.55,
+          ease: "back.out(2)",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 78%" },
+        }
+      );
+      gsap.fromTo(
+        ".theme-timeline-item",
+        { x: -16, opacity: 0 },
+        {
+          x: 0, opacity: 0.6, duration: 0.45, stagger: 0.15, delay: 0.6,
+          ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 78%" },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -88,22 +124,43 @@ export default function Theme() {
           </span>
         </div>
 
-        {/* Ver 3.0 リンク */}
-        <a
-          href="http://lud7n.neet.s3-website-us-east-1.amazonaws.com/#/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group inline-flex items-center gap-4 mb-12 hover:opacity-100 transition-opacity duration-300"
-          style={{ opacity: 0.85 }}
-        >
-          <div className="h-px w-12 bg-white/50 group-hover:w-20 transition-all duration-300" />
-          <span className="text-sm tracking-[0.25em] uppercase text-white/80">
-            Ver 3.0
-          </span>
-          <span className="text-sm text-white/50 group-hover:text-white group-hover:translate-x-1.5 transition-all duration-300">
-            ↗
-          </span>
-        </a>
+        {/* バージョンアーカイブ タイムライン */}
+        <div className="mb-12">
+          <p className="theme-archive-label text-[9px] tracking-[0.4em] uppercase text-white/20 mb-6">Archive</p>
+          <div className="relative" style={{ paddingLeft: "1.25rem" }}>
+            {/* 縦線（scaleY アニメーション用） */}
+            <div
+              className="theme-timeline-line absolute left-0 top-0 bottom-0 w-px bg-white/[0.08]"
+              style={{ transformOrigin: "top", scaleY: 0 } as React.CSSProperties}
+            />
+
+            {[
+              { ver: "Ver 1.0", href: "https://lud7n.github.io/lud7n.site.old/" },
+              { ver: "Ver 2.0", href: "https://lud7n.github.io/lud7n.site/#/" },
+              { ver: "Ver 3.0", href: "http://lud7n.neet.s3-website-us-east-1.amazonaws.com/#/" },
+            ].map(({ ver, href }) => (
+              <a
+                key={ver}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="theme-timeline-item group flex items-center gap-4 py-3 hover:opacity-100 transition-opacity duration-300"
+                style={{ opacity: 0 }}
+              >
+                {/* ドット */}
+                <div className="theme-timeline-dot absolute left-0 w-[5px] h-[5px] rounded-full bg-white/30 -translate-x-[2px] group-hover:bg-indigo-400 transition-colors duration-300" style={{ scale: 0 } as React.CSSProperties} />
+                {/* ライン */}
+                <div className="h-px w-6 bg-white/30 group-hover:w-10 group-hover:bg-white/60 transition-all duration-300" />
+                <span className="text-xs tracking-[0.3em] uppercase text-white/70 group-hover:text-white transition-colors duration-300">
+                  {ver}
+                </span>
+                <span className="text-xs text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
+                  ↗
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
 
         {/* 見出し */}
         <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight" style={{ perspective: "600px", marginBottom: "1.5rem" }}>
