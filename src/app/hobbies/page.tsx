@@ -314,7 +314,7 @@ export default function Hobbies() {
   };
 
   return (
-    <div style={{ width: "100vw", height: "100vh", background: "#06080f", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ width: "100vw", height: "calc(100vh - 64px)", background: "#06080f", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
       {/* ノイズ */}
       <div aria-hidden style={{
         position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: 0.03,
@@ -329,7 +329,7 @@ export default function Hobbies() {
       <div style={{
         position: "relative", zIndex: 1,
         width: "min(760px, 92vw)",
-        height: "min(540px, 80vh)",
+        height: "min(480px, 72vh)",
         background: "rgba(8,10,18,0.96)",
         border: "1px solid rgba(255,255,255,0.08)",
         borderRadius: 10,
