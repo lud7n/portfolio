@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { lenisInstance } from "@/components/SmoothScrollProvider";
 
 // ────────────────────────────────────────────
 // CodeRain background
@@ -275,6 +276,11 @@ export default function Hobbies() {
   const [phase, setPhase] = useState<"init" | "ls" | "ready" | "cat" | "done">("init");
   const [selectedHobby, setSelectedHobby] = useState<typeof hobbies[0] | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // ページトップにリセット
+  useEffect(() => {
+    lenisInstance?.scrollTo(0, { immediate: true });
+  }, []);
 
   // 自動スクロール
   useEffect(() => {
