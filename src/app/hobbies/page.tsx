@@ -275,16 +275,18 @@ export default function Hobbies() {
   const [lines, setLines] = useState<Line[]>([]);
   const [phase, setPhase] = useState<"init" | "ls" | "ready" | "cat" | "done">("init");
   const [selectedHobby, setSelectedHobby] = useState<typeof hobbies[0] | null>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const bottomRef   = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
 
   // ページトップにリセット
   useEffect(() => {
     lenisInstance?.scrollTo(0, { immediate: true });
   }, []);
 
-  // 自動スクロール
+  // ターミナル内の自動スクロール（ページ全体ではなくコンテナ内のみ）
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = terminalRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [lines, phase]);
 
   // 起動シーケンス
@@ -347,7 +349,7 @@ export default function Hobbies() {
         </div>
 
         {/* コンテンツ */}
-        <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "20px 24px", fontFamily: "monospace", fontSize: 13, lineHeight: 1.8, color: "rgba(255,255,255,0.65)" }}>
+        <div ref={terminalRef} style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "20px 24px", fontFamily: "monospace", fontSize: 13, lineHeight: 1.8, color: "rgba(255,255,255,0.65)" }}>
 
           {/* 既存ライン */}
           {lines.map((line, i) => {
