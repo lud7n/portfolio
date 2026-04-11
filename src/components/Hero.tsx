@@ -221,13 +221,6 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* メタ情報 */}
-        <div className="hero-meta flex items-center gap-6 mt-10">
-          <div className="h-px w-12 bg-white/20" />
-          <p className="text-xs text-white/35 tracking-[0.25em] uppercase">
-            目標を常に最適化し続けること
-          </p>
-        </div>
       </div>
 
       {/* スクロールインジケーター */}
