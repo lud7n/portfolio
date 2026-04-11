@@ -362,51 +362,9 @@ export default function Hobbies() {
             if (line.type === "list") {
               return (
                 <div key={i} style={{ marginBottom: 4 }}>
-                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginBottom: 10, letterSpacing: "0.05em" }}>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", letterSpacing: "0.05em" }}>
                     # ファイルを選択してください
                   </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {hobbies.map(h => (
-                    <button
-                      key={h.id}
-                      onClick={() => handleSelect(h)}
-                      disabled={phase !== "ready"}
-                      style={{
-                        fontFamily: "monospace",
-                        fontSize: 12,
-                        color: phase === "ready" ? "#818cf8" : "#4f46e5",
-                        background: "rgba(99,102,241,0.08)",
-                        border: "1px solid rgba(99,102,241,0.3)",
-                        borderBottom: "2px solid rgba(99,102,241,0.5)",
-                        borderRadius: 4,
-                        padding: "3px 10px",
-                        cursor: phase === "ready" ? "pointer" : "default",
-                        transition: "all 0.15s ease",
-                        outline: "none",
-                      }}
-                      onMouseEnter={e => {
-                        if (phase !== "ready") return;
-                        const el = e.currentTarget;
-                        el.style.background = "rgba(99,102,241,0.18)";
-                        el.style.borderColor = "rgba(99,102,241,0.7)";
-                        el.style.color = "#a5b4fc";
-                        el.style.transform = "translateY(-1px)";
-                      }}
-                      onMouseLeave={e => {
-                        const el = e.currentTarget;
-                        el.style.background = "rgba(99,102,241,0.08)";
-                        el.style.borderColor = "rgba(99,102,241,0.3)";
-                        el.style.borderBottomColor = "rgba(99,102,241,0.5)";
-                        el.style.color = "#818cf8";
-                        el.style.transform = "translateY(0)";
-                      }}
-                      onMouseDown={e => { e.currentTarget.style.transform = "translateY(1px)"; e.currentTarget.style.borderBottomWidth = "1px"; }}
-                      onMouseUp={e => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.borderBottomWidth = "2px"; }}
-                    >
-                      {h.filename}
-                    </button>
-                  ))}
-                </div>
                 </div>
               );
             }
@@ -444,6 +402,52 @@ export default function Hobbies() {
 
           <div ref={bottomRef} />
         </div>
+
+        {/* ファイル選択ボタン（スクロール非依存の固定エリア） */}
+        {(phase === "ready" || phase === "cat" || phase === "done") && (
+          <div style={{ padding: "10px 24px", borderTop: "1px solid rgba(255,255,255,0.06)", flexShrink: 0, display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {hobbies.map(h => (
+              <button
+                key={h.id}
+                onClick={() => handleSelect(h)}
+                disabled={phase !== "ready"}
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 12,
+                  color: phase === "ready" ? "#818cf8" : "#4f46e5",
+                  background: "rgba(99,102,241,0.08)",
+                  border: "1px solid rgba(99,102,241,0.3)",
+                  borderBottom: "2px solid rgba(99,102,241,0.5)",
+                  borderRadius: 4,
+                  padding: "3px 10px",
+                  cursor: phase === "ready" ? "pointer" : "default",
+                  transition: "all 0.15s ease",
+                  outline: "none",
+                }}
+                onMouseEnter={e => {
+                  if (phase !== "ready") return;
+                  const el = e.currentTarget;
+                  el.style.background = "rgba(99,102,241,0.18)";
+                  el.style.borderColor = "rgba(99,102,241,0.7)";
+                  el.style.color = "#a5b4fc";
+                  el.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget;
+                  el.style.background = "rgba(99,102,241,0.08)";
+                  el.style.borderColor = "rgba(99,102,241,0.3)";
+                  el.style.borderBottomColor = "rgba(99,102,241,0.5)";
+                  el.style.color = "#818cf8";
+                  el.style.transform = "translateY(0)";
+                }}
+                onMouseDown={e => { e.currentTarget.style.transform = "translateY(1px)"; e.currentTarget.style.borderBottomWidth = "1px"; }}
+                onMouseUp={e => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.borderBottomWidth = "2px"; }}
+              >
+                {h.filename}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* ヒント */}
         <div style={{ padding: "8px 24px", borderTop: "1px solid rgba(255,255,255,0.04)", fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(255,255,255,0.15)", flexShrink: 0 }}>
