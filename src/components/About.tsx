@@ -63,20 +63,10 @@ export default function About() {
       style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
     >
       <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
-        <span className="about-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
-          About Me
-        </span>
-
         <div className="max-w-2xl">
           <div>
-            <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight mb-8 tracking-tight" style={{ perspective: "600px" }}>
-              {"Design meets".split("").map((c, i) => (
-                <span key={i} className="about-char inline-block" style={{ whiteSpace: c === " " ? "pre" : "normal" }}>{c}</span>
-              ))}
-              <br />
-              {"Engineering".split("").map((c, i) => (
-                <span key={i} className="about-char inline-block text-indigo-400">{c}</span>
-              ))}
+            <h2 className="about-heading text-5xl md:text-6xl font-black leading-tight tracking-tight" style={{ marginBottom: "1.5rem" }}>
+              About <span className="text-indigo-400">Me</span>
             </h2>
             <div className="about-body space-y-4">
               <p className="text-white/50 text-base md:text-lg leading-relaxed">

@@ -83,9 +83,6 @@ export default function Theme() {
       <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
         {/* ヘッダー行 */}
         <div className="flex items-baseline justify-between mb-20">
-          <span className="theme-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full">
-            Theme
-          </span>
           <span className="theme-version text-[10px] tracking-[0.3em] uppercase text-white/20">
             Ver 4.0 Cosmos
           </span>
@@ -109,7 +106,7 @@ export default function Theme() {
         </a>
 
         {/* 見出し */}
-        <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight mb-16" style={{ perspective: "600px" }}>
+        <h2 className="theme-heading text-5xl md:text-6xl font-black leading-tight tracking-tight" style={{ perspective: "600px", marginBottom: "1.5rem" }}>
           {"Ver 4.0 Cosmos".split("").map((c, i) => (
             <span key={i} className="theme-char inline-block" style={{ whiteSpace: c === " " ? "pre" : "normal" }}>{c}</span>
           ))}

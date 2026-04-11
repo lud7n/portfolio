@@ -97,18 +97,8 @@ export default function Certifications() {
       style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
     >
       <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
-        <span className="cert-tag inline-block text-[10px] tracking-[0.35em] uppercase text-white/40 border border-white/15 px-3 py-1.5 rounded-full mb-8">
-          Certifications
-        </span>
-
-        <h2 className="cert-heading text-5xl md:text-6xl font-black leading-tight mb-20 tracking-tight" style={{ perspective: "600px" }}>
-          {"Proven".split("").map((c, i) => (
-            <span key={i} className="cert-char inline-block">{c}</span>
-          ))}
-          <br />
-          {"Knowledge".split("").map((c, i) => (
-            <span key={i} className="cert-char inline-block text-indigo-400">{c}</span>
-          ))}
+        <h2 className="cert-heading text-5xl md:text-6xl font-black leading-tight tracking-tight" style={{ marginBottom: "1.5rem" }}>
+          Certifi<span className="text-indigo-400">cations</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-16">
@@ -125,9 +115,6 @@ export default function Certifications() {
                   >
                     <span className="text-white/80 text-sm font-medium tracking-wide">
                       {item.name}
-                    </span>
-                    <span className="text-white/20 text-[10px] tracking-[0.15em] uppercase text-right shrink-0 group-hover:text-white/35 transition-colors duration-300">
-                      {item.en}
                     </span>
                   </div>
                 ))}

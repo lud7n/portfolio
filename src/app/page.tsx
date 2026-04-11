@@ -7,7 +7,6 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Certifications from "@/components/Certifications";
 import Theme from "@/components/Theme";
-import MarqueeStrip from "@/components/MarqueeStrip";
 import LoadingScreen from "@/components/LoadingScreen";
 import AuroraBackground from "@/components/AuroraBackground";
 import WarpBackground from "@/components/WarpBackground";
@@ -80,11 +79,8 @@ export default function Home() {
       )}
     <div style={{ perspective: "1400px" }}>
       <Hero />
-      <MarqueeStrip />
       <About />
-      <MarqueeStrip reverse />
       <Certifications />
-      <MarqueeStrip />
       <Theme />
     </div>
 </>
