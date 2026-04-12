@@ -24,34 +24,31 @@ export default function ArticleCardGrid({ articles }: { articles: Article[] }) {
     const cards = gridRef.current?.querySelectorAll<HTMLElement>(".article-card");
     if (!cards?.length) return;
 
+    // 行ごとにグループ化（2列グリッドなので2枚ずつ）
+    const rows: HTMLElement[][] = [];
     cards.forEach((card, i) => {
-      const isLeft = i % 2 === 0;
-      const fromY = isLeft ? -75 : 75;
-      const start = isLeft ? "top 92%" : "top 85%";
-      const end   = isLeft ? "top 38%" : "top 30%";
+      const rowIdx = Math.floor(i / 2);
+      if (!rows[rowIdx]) rows[rowIdx] = [];
+      rows[rowIdx].push(card);
+    });
 
-      // 回転して登場
-      gsap.fromTo(card,
-        { rotateY: fromY, opacity: 0, transformOrigin: isLeft ? "left center" : "right center" },
+    rows.forEach((row) => {
+      gsap.fromTo(
+        row,
+        { y: 48, opacity: 0 },
         {
-          rotateY: 0,
+          y: 0,
           opacity: 1,
-          ease: "none",
-          scrollTrigger: { trigger: card, start, end, scrub: 1 },
+          duration: 0.7,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: row[0],
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
         }
       );
-
-      // 視差：左カラムはゆっくり、右カラムは速く上に流れる
-      gsap.to(card, {
-        yPercent: isLeft ? -8 : -18,
-        ease: "none",
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.5,
-        },
-      });
     });
 
     return () => ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -83,7 +80,6 @@ export default function ArticleCardGrid({ articles }: { articles: Article[] }) {
             background: "rgba(255,255,255,0.03)",
             border: `1px solid ${BORDER}`,
             boxShadow: "0 2px 24px rgba(0,0,0,0.3)",
-            transformStyle: "preserve-3d",
           }}
           onMouseMove={handleMouseMove}
         >
