@@ -94,7 +94,7 @@ export default function Certifications() {
       ref={sectionRef}
       id="certifications"
       className="w-full"
-      style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
+      style={{ paddingTop: "9rem", paddingBottom: "6rem" }}
     >
       <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
         <h2 className="cert-heading text-5xl md:text-6xl font-black leading-tight tracking-tight" style={{ marginBottom: "1.5rem" }}>
