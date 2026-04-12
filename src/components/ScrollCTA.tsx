@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaCode, FaLayerGroup, FaHeart, FaFeather } from "react-icons/fa";
 import type { IconType } from "react-icons";
 import { navigateTo } from "@/lib/pageTransition";
@@ -20,6 +21,7 @@ function CTAButton({
   color: ButtonColor;
 }) {
   const btnRef = useRef<HTMLAnchorElement>(null);
+  const pathname = usePathname();
 
   const handleMouseEnter = () => {
     const el = btnRef.current;
@@ -51,6 +53,7 @@ function CTAButton({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (pathname === href) return;
     navigateTo(href);
   };
 

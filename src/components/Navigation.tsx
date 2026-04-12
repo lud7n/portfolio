@@ -270,7 +270,7 @@ export default function Navigation() {
                   e.preventDefault();
                   setMenuOpen(false);
                   lenisInstance?.scrollTo(0, { immediate: true });
-                  navigateTo(link.href);
+                  if (pathname !== link.href) navigateTo(link.href);
                 }}
               >
                 {/* D: ホバーで他リンクが暗くなる */}
