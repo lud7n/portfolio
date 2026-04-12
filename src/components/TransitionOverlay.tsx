@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import gsap from "gsap";
-import { setTransitionTrigger } from "@/lib/pageTransition";
+import { setTransitionTrigger, setRouterPush } from "@/lib/pageTransition";
 
 export default function TransitionOverlay() {
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -12,6 +12,9 @@ export default function TransitionOverlay() {
 
   // トリガー関数を登録
   useEffect(() => {
+    // router.push をフォールバックとして先に登録
+    setRouterPush((href: string) => router.push(href));
+
     const overlay = overlayRef.current;
     if (!overlay) return;
 
