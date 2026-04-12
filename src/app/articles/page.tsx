@@ -1,6 +1,7 @@
 import { getArticles } from "@/lib/notion";
 import ArticleCardGrid from "@/components/ArticleCardGrid";
 import ArticlesHeader from "@/components/ArticlesHeader";
+import ArticlesBackground from "@/components/ArticlesBackground";
 
 export const revalidate = false;
 
@@ -8,8 +9,9 @@ export default async function ArticlesPage() {
   const articles = await getArticles();
 
   return (
-    <main className="min-h-screen w-full" style={{ paddingTop: "10rem", paddingBottom: "18rem" }}>
-      <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
+    <main className="min-h-screen w-full relative" style={{ paddingTop: "10rem", paddingBottom: "18rem" }}>
+      <ArticlesBackground />
+      <div className="relative z-10 max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
 
         <ArticlesHeader count={articles.length} />
 
