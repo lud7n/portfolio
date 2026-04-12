@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { gsap } from "gsap";
+import Link from "next/link";
 import { FaCode, FaLayerGroup, FaHeart, FaFeather } from "react-icons/fa";
 import type { IconType } from "react-icons";
 import { navigateTo } from "@/lib/pageTransition";
@@ -54,7 +55,7 @@ function CTAButton({
   };
 
   return (
-    <a
+    <Link
       ref={btnRef}
       href={href}
       onClick={handleClick}
@@ -82,7 +83,7 @@ function CTAButton({
       >
         {label}
       </span>
-    </a>
+    </Link>
   );
 }
 
