@@ -6,6 +6,7 @@ import CustomCursor from "@/components/CustomCursor";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ScrollCTA from "@/components/ScrollCTA";
+import TransitionOverlay from "@/components/TransitionOverlay";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
             {children}
             <Footer />
             <ScrollCTA />
+            <TransitionOverlay />
           </div>
         </SmoothScrollProvider>
       </body>

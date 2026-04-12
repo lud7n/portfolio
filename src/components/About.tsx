@@ -60,7 +60,7 @@ export default function About() {
       ref={sectionRef}
       id="about"
       className="w-full"
-      style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
+      style={{ paddingTop: "9rem", paddingBottom: "6rem" }}
     >
       <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
         <div className="max-w-2xl">

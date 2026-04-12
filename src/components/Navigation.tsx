@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
+import { navigateTo } from "@/lib/pageTransition";
 import { usePathname } from "next/navigation";
 import { lenisInstance } from "@/components/SmoothScrollProvider";
 
@@ -265,7 +266,12 @@ export default function Navigation() {
                 href={link.href}
                 className="group flex items-baseline gap-5"
                 style={{ fontSize: "clamp(28px, 4vw, 52px)" }}
-                onClick={() => { setMenuOpen(false); lenisInstance?.scrollTo(0, { immediate: true }); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMenuOpen(false);
+                  lenisInstance?.scrollTo(0, { immediate: true });
+                  navigateTo(link.href);
+                }}
               >
                 {/* D: ホバーで他リンクが暗くなる */}
                 <span

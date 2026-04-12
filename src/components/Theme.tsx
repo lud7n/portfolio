@@ -28,22 +28,6 @@ export default function Theme() {
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".theme-tag",
-        { y: 20, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.6,
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
-        }
-      );
-      gsap.fromTo(
-        ".theme-version",
-        { y: 20, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.6, delay: 0.1,
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
-        }
-      );
-      gsap.fromTo(
         ".theme-heading",
         { x: -280, opacity: 0 },
         {
@@ -114,16 +98,9 @@ export default function Theme() {
       ref={sectionRef}
       id="theme"
       className="w-full"
-      style={{ paddingTop: "14rem", paddingBottom: "8rem" }}
+      style={{ paddingTop: "9rem", paddingBottom: "6rem" }}
     >
       <div className="max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
-        {/* ヘッダー行 */}
-        <div className="flex items-baseline justify-between mb-20">
-          <span className="theme-version text-[10px] tracking-[0.3em] uppercase text-white/20">
-            Ver 4.0 Cosmos
-          </span>
-        </div>
-
         {/* バージョンアーカイブ タイムライン */}
         <div className="mb-12">
           <p className="theme-archive-label text-[9px] tracking-[0.4em] uppercase text-white/20 mb-6">Archive</p>

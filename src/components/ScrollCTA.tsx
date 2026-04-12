@@ -2,59 +2,22 @@
 
 import { useRef } from "react";
 import { gsap } from "gsap";
-import { useRouter } from "next/navigation";
 import { FaCode, FaLayerGroup, FaHeart, FaFeather } from "react-icons/fa";
 import type { IconType } from "react-icons";
-
-// ── A: カラー Circle Reveal ──────────────────────────────
-function runColorReveal(originEl: HTMLElement, color: string, onDone: () => void) {
-  const rect = originEl.getBoundingClientRect();
-  const ox   = rect.left + rect.width  / 2;
-  const oy   = rect.top  + rect.height / 2;
-  const size = rect.width;
-
-  const div = document.createElement("div");
-  div.style.cssText = `
-    position: fixed; z-index: 9999; border-radius: 50%;
-    background: ${color}; pointer-events: none;
-    width: ${size}px; height: ${size}px;
-    left: ${ox - size / 2}px; top: ${oy - size / 2}px;
-    transform: scale(1); transform-origin: center center;
-  `;
-  document.body.appendChild(div);
-
-  const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
-  gsap.to(div, {
-    scale: (maxDist * 2) / size,
-    duration: 0.65,
-    ease: "power3.inOut",
-    onComplete: () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          onDone();
-          setTimeout(() => { if (document.body.contains(div)) document.body.removeChild(div); }, 500);
-        });
-      });
-    },
-  });
-}
+import { navigateTo } from "@/lib/pageTransition";
 
 // ── Button ───────────────────────────────────────────────
-type RevealMode = { type: "color"; color: string };
-
 type ButtonColor = { ring: string; glow: string; label: string };
 
 function CTAButton({
-  label, href, reveal, Icon, iconClass, color,
+  label, href, Icon, iconClass, color,
 }: {
   label: string;
   href: string;
-  reveal: RevealMode;
   Icon: IconType;
   iconClass: string;
   color: ButtonColor;
 }) {
-  const router = useRouter();
   const btnRef = useRef<HTMLAnchorElement>(null);
 
   const handleMouseEnter = () => {
@@ -87,8 +50,7 @@ function CTAButton({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const ring = btnRef.current?.querySelector(".cta-ring") as HTMLElement;
-    runColorReveal(ring ?? (btnRef.current as HTMLElement), reveal.color, () => router.push(href));
+    navigateTo(href);
   };
 
   return (
@@ -166,25 +128,21 @@ export default function ScrollCTA() {
       <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-40 flex items-end gap-8">
         <CTAButton
           label="Skills" href="/skills"
-          reveal={{ type: "color", color: "#3730a3" }}
           Icon={FaCode} iconClass="icon-skills"
           color={{ ring: "rgba(99,102,241,0.7)", glow: "rgba(99,102,241,0.35)", label: "rgba(129,140,248,0.9)" }}
         />
         <CTAButton
           label="Projects" href="/projects"
-          reveal={{ type: "color", color: "#065f46" }}
           Icon={FaLayerGroup} iconClass="icon-projects"
           color={{ ring: "rgba(16,185,129,0.7)", glow: "rgba(16,185,129,0.3)", label: "rgba(52,211,153,0.9)" }}
         />
         <CTAButton
           label="Hobbies" href="/hobbies"
-          reveal={{ type: "color", color: "#4c0519" }}
           Icon={FaHeart} iconClass="icon-hobbies"
           color={{ ring: "rgba(244,63,94,0.7)", glow: "rgba(244,63,94,0.3)", label: "rgba(251,113,133,0.9)" }}
         />
         <CTAButton
           label="Articles" href="/articles"
-          reveal={{ type: "color", color: "#2e1065" }}
           Icon={FaFeather} iconClass="icon-articles"
           color={{ ring: "rgba(139,92,246,0.7)", glow: "rgba(139,92,246,0.3)", label: "rgba(167,139,250,0.9)" }}
         />
