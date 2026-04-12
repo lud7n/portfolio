@@ -5,10 +5,15 @@ import { useRouter, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { setTransitionTrigger, setRouterPush } from "@/lib/pageTransition";
 
+const normalize = (p: string) => p.replace(/\/$/, "") || "/";
+
 export default function TransitionOverlay() {
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const router     = useRouter();
-  const pathname   = usePathname();
+  const overlayRef   = useRef<HTMLDivElement>(null);
+  const router       = useRouter();
+  const pathname     = usePathname();
+  const pathnameRef  = useRef(pathname);
+
+  useEffect(() => { pathnameRef.current = pathname; }, [pathname]);
 
   // トリガー関数を登録
   useEffect(() => {
@@ -19,6 +24,9 @@ export default function TransitionOverlay() {
     if (!overlay) return;
 
     setTransitionTrigger((href: string) => {
+      // 同一ページへの遷移はフリーズするためスキップ
+      if (normalize(href) === normalize(pathnameRef.current)) return;
+
       overlay.style.pointerEvents = "all";
       gsap.to(overlay, {
         opacity: 1,
