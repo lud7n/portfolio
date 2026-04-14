@@ -11,7 +11,7 @@ export default async function ArticlesPage() {
   return (
     <main className="min-h-screen w-full relative" style={{ paddingTop: "10rem", paddingBottom: "18rem" }}>
       <ArticlesBackground />
-      <div className="relative z-10 max-w-5xl mx-auto" style={{ paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)" }}>
+      <div style={{ maxWidth: "72rem", marginLeft: "auto", marginRight: "auto", paddingLeft: "clamp(2rem, 5vw, 5rem)", paddingRight: "clamp(2rem, 5vw, 5rem)", position: "relative", zIndex: 10 }}>
 
         <ArticlesHeader count={articles.length} />
 
