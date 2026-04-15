@@ -235,31 +235,51 @@ function ProjectRow({
             </div>
 
             {/* 右: Tech + Process + Scale */}
-            <div className="space-y-7">
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
+              {/* Tech Stack */}
               <div>
-                <p className="text-[9px] tracking-[0.3em] uppercase text-white/20 mb-3">Tech Stack</p>
-                <div className="flex flex-wrap gap-2">
+                <p style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", marginBottom: "0.75rem" }}>Tech Stack</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                   {project.tech.map((t) => (
-                    <span key={t} className="text-[9px] tracking-[0.15em] uppercase px-2.5 py-1 rounded-full border"
-                      style={{ color: `${project.accentLight}90`, borderColor: `${project.accentLight}25` }}>
+                    <span key={t} style={{
+                      fontSize: "9px", letterSpacing: "0.15em", textTransform: "uppercase",
+                      color: `${project.accentLight}cc`,
+                      border: `1px solid ${project.accentLight}35`,
+                      padding: "3px 10px", borderRadius: "999px",
+                    }}>
                       {t}
                     </span>
                   ))}
                 </div>
               </div>
+
+              {/* Process */}
               <div>
-                <p className="text-[9px] tracking-[0.3em] uppercase text-white/20 mb-3">Process</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.process.map((p) => (
-                    <span key={p} className="text-[9px] tracking-[0.15em] uppercase text-white/25 border border-white/[0.08] px-2.5 py-1 rounded-full">
-                      {p}
+                <p style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", marginBottom: "0.75rem" }}>Process</p>
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.35rem" }}>
+                  {project.process.map((p, i) => (
+                    <span key={p} style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
+                      <span style={{
+                        fontSize: "9px", letterSpacing: "0.12em",
+                        color: "rgba(255,255,255,0.45)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        padding: "3px 10px", borderRadius: "999px",
+                        whiteSpace: "nowrap",
+                      }}>
+                        {p}
+                      </span>
+                      {i < project.process.length - 1 && (
+                        <span style={{ fontSize: "8px", color: "rgba(255,255,255,0.15)" }}>→</span>
+                      )}
                     </span>
                   ))}
                 </div>
               </div>
+
+              {/* Scale */}
               <div>
-                <p className="text-[9px] tracking-[0.3em] uppercase text-white/20 mb-1">Scale</p>
-                <p className="text-sm text-white/35">{project.scale}</p>
+                <p style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", marginBottom: "0.5rem" }}>Scale</p>
+                <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}>{project.scale}</p>
               </div>
             </div>
           </div>
@@ -349,9 +369,6 @@ export default function Projects() {
             <br />
             <span className="text-white/15">& Work</span>
           </h1>
-          <p className="proj-sub text-white/35 text-base leading-relaxed max-w-sm">
-            業務・学術・個人開発を通じて取り組んできたプロジェクトの記録。
-          </p>
         </div>
 
         <section ref={listRef} className="max-w-5xl mx-auto"
